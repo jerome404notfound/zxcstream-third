@@ -2,7 +2,6 @@
 import { useGlobalAdLink } from "@/lib/ad";
 import type { MovieType } from "@/lib/getMovieData";
 import Image from "next/image";
-import CircularProgress from "./rating-progress";
 import Link from "next/link";
 import { Play } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";

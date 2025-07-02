@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import type { MovieType } from "@/lib/getMovieData";
 import { Button } from "@/components/ui/button";
 import { MovieCard } from "@/app/card";

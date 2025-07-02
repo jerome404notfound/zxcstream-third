@@ -188,8 +188,7 @@ export default function ReusableCategory({
         <div className="flex items-center justify-between w-full ">
           <h1 className="lg:text-2xl text-xl whitespace-nowrap  font-bold flex gap-2">
             <p className="text-foreground relative font-semibold text-[1.1rem] lg:text-2xl  lg:border-l-4 border-l-2 border-blue-800 lg:pl-6 pl-3 flex items-center gap-2">
-              {category?.charAt(0).toUpperCase() +
-                (keywordId || category)?.slice(1)}
+              {category?.charAt(0).toUpperCase() + category?.slice(1)}
               &nbsp;
               {media_type === "movie" ? "Movies" : "TV Shows"}
             </p>
@@ -218,7 +217,7 @@ export default function ReusableCategory({
             setVoteMax={setVoteMax}
           />
         </div>
-        <div className="grid lg:grid-cols-6 grid-cols-3 w-full lg:gap-2  gap-1">
+        <div className="grid lg:grid-cols-6 grid-cols-3 w-full lg:gap-5  gap-1">
           {loading
             ? Array.from({ length: 6 }).map((_, index) => (
                 <Skeleton

@@ -17,9 +17,9 @@ export default function ClientOnlyGuard({
       const isLocal = hostname === "localhost" || hostname === "192.168.1.12";
 
       const isProd =
-        hostname === "zxcstream-nextjs.vercel.app" || // exact match
-        hostname === "zxcstream-nextjs" || // (optional) subdomain if ever used
-        hostname.endsWith(".zxcstream-nextjs.vercel.app"); // for branches like preview.vercel.app
+        hostname === "zxcstreampro.vercel.app" || // exact match
+        hostname === "zxcstreampro" || // (optional) subdomain if ever used
+        hostname.endsWith(".zxcstreampro.vercel.app"); // for branches like preview.vercel.app
 
       if (isLocal || isProd) {
       } else {

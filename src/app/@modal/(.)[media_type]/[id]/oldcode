@@ -1,0 +1,357 @@
+// "use client";
+
+// import {
+//   Drawer,
+//   DrawerClose,
+//   DrawerContent,
+//   DrawerDescription,
+//   DrawerHeader,
+//   DrawerTitle,
+// } from "@/components/ui/drawer";
+// import Trailer from "@/app/trailer";
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState, use } from "react";
+// import EpisodeList from "@/app/fetchEpisode";
+// import {
+//   Bookmark,
+//   ChevronsUpDown,
+//   LayoutGrid,
+//   LibraryBig,
+//   Play,
+//   Star,
+//   X,
+// } from "lucide-react";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import TmdbImages from "@/app/fetchImage";
+// import { Button } from "@/components/ui/button";
+// import useCollection from "@/app/collectionFetch";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+// } from "@/components/ui/command";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/components/ui/popover";
+// interface PageProps {
+//   params: Promise<{ media_type: string; id: string }>;
+// }
+// interface GenreType {
+//   id: number;
+//   name: string;
+// }
+// interface CompanyTypes {
+//   id: number;
+//   name: string;
+// }
+// interface CreatedByTypes {
+//   id: number;
+//   name: string;
+// }
+// interface LanguagesType {
+//   name: string;
+// }
+// interface CollectionType {
+//   id: string;
+//   name: string;
+//   parts: CollectionPartsType[];
+// }
+// interface CollectionPartsType {
+//   id: string;
+//   name: string;
+// }
+// interface SeasonsType {
+//   id: number;
+//   episode_count: string;
+//   season_number: string;
+//   name: string;
+// }
+// interface MovieType {
+//   id: number;
+//   title?: string;
+//   tagline: string;
+//   name?: string;
+//   status: string;
+//   vote_average: number;
+//   belongs_to_collection: CollectionType;
+//   poster_path: string;
+//   backdrop_path: string;
+//   overview: string;
+//   media_type: string;
+//   runtime: number;
+//   release_date: string;
+//   first_air_date: string;
+//   number_of_seasons: string;
+//   number_of_episodes: string;
+//   genres: GenreType[];
+//   seasons: SeasonsType[];
+//   production_companies: CompanyTypes[];
+//   created_by: CreatedByTypes[];
+//   spoken_languages: LanguagesType[];
+// }
+// const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+// export default function InterceptModal({ params }: PageProps) {
+//   const { media_type, id } = use(params);
+//   const router = useRouter();
+//   const [open, setOpen] = useState(true);
+//   const [show, setShow] = useState<MovieType | null>(null);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [seasonOpen, setSeasonOpen] = useState(false);
+//   const [seasonValue, setSeasonValue] = useState("1");
+//   const [navigating, setNavigating] = useState(false);
+
+//   const collection = useCollection(show?.belongs_to_collection?.id);
+//   console.log(show);
+//   useEffect(() => {
+//     async function fetchData() {
+//       if (!open) {
+//         setShow(null);
+//         setLoading(true);
+//       } else {
+//         try {
+//           setLoading(true);
+//           const res = await fetch(
+//             `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${apiKey}&language=en-US&append_to_response=videos,images,credits,recommendations,similar,reviews,external_ids,watch/providers,content_ratings,release_dates,translations`
+//           );
+
+//           const data = await res.json();
+//           setShow(data);
+//         } catch (error) {
+//           console.error(error);
+//         } finally {
+//           setLoading(false);
+//         }
+//       }
+//     }
+//     fetchData();
+//   }, []);
+
+//   useEffect(() => {
+//     if (!open && !navigating) {
+//       const timeout = setTimeout(() => {
+//         router.back();
+//       }, 100);
+//       return () => clearTimeout(timeout);
+//     }
+//   }, [open, router, navigating]);
+
+//   return (
+//     <Drawer open={open} onOpenChange={setOpen}>
+//       <DrawerContent className=" outline-none focus-visible:outline-none">
+//         <DrawerHeader className="sr-only">
+//           <DrawerTitle>{show?.title || show?.name}</DrawerTitle>
+//           <DrawerDescription>{show?.overview}</DrawerDescription>
+//         </DrawerHeader>
+//         <DrawerClose className="absolute right-4 top-4 z-10 cursor-pointer bg-blue-800/20 rounded-full p-1">
+//           <X className="h-5 w-5 text-blue-800 " />
+//         </DrawerClose>
+//         <div className="overflow-y-auto meow">
+//           {loading ? (
+//             <div className="h-full w-full">
+//               <div className="relative aspect-[16/8] flex justify-center items-center overlay">
+//                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-t-transparent border-blue-800"></div>
+//               </div>
+//               <div className="h-full w-full px-10 py-5 flex gap-10">
+//                 <span className="w-[65%] space-y-1">
+//                   <Skeleton className="h-16 w-full" />
+//                   <Skeleton className="h-21 w-full" />
+//                 </span>
+//                 <span className="w-[35%]  space-y-2">
+//                   <Skeleton className="h-8 w-full" />
+//                   <Skeleton className="h-8 w-full" />
+//                   <Skeleton className="h-8 w-full" />
+//                   <Skeleton className="h-8 w-full" />
+//                 </span>
+//               </div>
+//             </div>
+//           ) : (
+//             <>
+//               <div className="relative aspect-video overflow-hidden">
+//                 <Trailer id={id} mediaType={media_type} type="modal" />
+
+//                 <div className="absolute lg:left-8 lg:bottom-12 left-3 bottom-8 lg:w-[35%] w-[50%] z-50">
+//                   <TmdbImages id={id} mediaType={media_type} />
+//                   <div className="space-x-3 hidden lg:block">
+//                     <Button
+//                       onClick={() => {
+//                         router.push(
+//                           `/watch/${media_type}/${id}${
+//                             media_type === "tv" ? "/1/1" : ""
+//                           }`
+//                         );
+//                         setNavigating(true);
+//                         setOpen(false);
+//                       }}
+//                       variant="outline"
+//                       className="mt-8"
+//                     >
+//                       <Play />
+//                       Play Now
+//                     </Button>
+//                     <Button>
+//                       <Bookmark />
+//                     </Button>
+//                   </div>
+//                 </div>
+//               </div>
+//               {show && (
+//                 <div className="px-3 py-5 lg:px-10 flex flex-col gap-5">
+//                   <div className="w-full flex flex-col lg:flex-row lg:gap-10 gap-5">
+//                     <span className="lg:w-[65%] w-full">
+//                       <div className="flex gap-3 items-center mb-5 lg:hidden">
+//                         <Button
+//                           onClick={() => {
+//                             router.push(
+//                               `/watch/${media_type}/${id}${
+//                                 media_type === "tv" ? "/1/1" : ""
+//                               }`
+//                             );
+//                             setNavigating(true);
+//                             setOpen(false);
+//                           }}
+//                           variant="outline"
+//                           className="flex-1"
+//                         >
+//                           <Play />
+//                           Play Now
+//                         </Button>
+//                         <Button>
+//                           <Bookmark />
+//                         </Button>
+//                       </div>
+//                       <div className="flex items-center gap-3">
+//                         <span>
+//                           {new Date(show.release_date).getFullYear() ||
+//                             new Date(show.first_air_date).getFullYear()}
+//                         </span>
+//                         ·
+//                         <span>
+//                           {show.runtime
+//                             ? `${Math.floor(show.runtime / 60)}h ${
+//                                 show.runtime % 60
+//                               }m`
+//                             : `S${show.number_of_seasons} E${show.number_of_episodes}`}
+//                         </span>
+//                         ·
+//                         <span className="flex items-center text-yellow-300 gap-1">
+//                           <Star className="h-4 w-4 flex items-center" />
+//                           {String(show.vote_average)[0]}/10
+//                         </span>
+//                       </div>
+//                       <p className="mt-5">{show.overview}</p>
+//                     </span>
+//                     <span className="lg:w-[35%] w-full flex flex-col gap-5">
+//                       <span>
+//                         <span className="text-muted-foreground">Genres:</span>
+//                         <span>
+//                           {" "}
+//                           {show.genres.map((g) => g.name).join(", ")}
+//                         </span>
+//                       </span>
+
+//                       <span>
+//                         <span className="text-muted-foreground">
+//                           Production:{" "}
+//                         </span>
+//                         {show.production_companies
+//                           .map((g) => g.name)
+//                           .join(", ")}
+//                       </span>
+
+//                       <span className="flex gap-2">
+//                         <span className="text-muted-foreground">Status:</span>
+//                         <span>{show.status}</span>
+//                       </span>
+//                     </span>
+//                   </div>
+//                   <div className="w-full ">
+//                     {media_type === "movie" &&
+//                       show.belongs_to_collection !== null && (
+//                         <div className="space-y-3">
+//                           <h1 className="flex gap-2 items-center text-xl font-semibold">
+//                             <LibraryBig />
+//                             {show.belongs_to_collection.name}
+//                           </h1>
+//                           <div className="grid lg:grid-cols-4 grid-cols-3 lg:gap-5 gap-3">
+//                             {collection?.parts.map((meow) => (
+//                               <div
+//                                 key={meow.id}
+//                                 className="overflow-hidden rounded-lg"
+//                               >
+//                                 <img
+//                                   src={`https://image.tmdb.org/t/p/w500/${meow.poster_path}`}
+//                                   alt=""
+//                                 />
+//                               </div>
+//                             ))}
+//                           </div>
+//                         </div>
+//                       )}
+
+//                     {media_type === "tv" && (
+//                       <div className="w-full mt-5">
+//                         <div className="flex justify-between items-center">
+//                           <h1 className="text-xl font-semibold flex items-center gap-3">
+//                             <LayoutGrid />
+//                             Episodes
+//                           </h1>
+//                           <Popover
+//                             open={seasonOpen}
+//                             onOpenChange={setSeasonOpen}
+//                           >
+//                             <PopoverTrigger asChild>
+//                               <Button
+//                                 variant="outline"
+//                                 role="combobox"
+//                                 aria-expanded={seasonOpen}
+//                                 className="w-[260px] justify-between"
+//                               >
+//                                 {seasonValue
+//                                   ? `Season ${seasonValue}`
+//                                   : "Select Season"}
+
+//                                 <ChevronsUpDown className="opacity-50" />
+//                               </Button>
+//                             </PopoverTrigger>
+//                             <PopoverContent className="w-[260px] p-0">
+//                               <Command>
+//                                 <CommandInput placeholder="Search season..." />
+//                                 <CommandList>
+//                                   <CommandEmpty>No season found.</CommandEmpty>
+//                                   <CommandGroup>
+//                                     {show.seasons.map((season: SeasonsType) => (
+//                                       <CommandItem
+//                                         key={season.id}
+//                                         value={season.season_number}
+//                                         onSelect={() => {
+//                                           setSeasonValue(season.season_number);
+//                                           setSeasonOpen(false);
+//                                         }}
+//                                       >
+//                                         {season.name}
+//                                       </CommandItem>
+//                                     ))}
+//                                   </CommandGroup>
+//                                 </CommandList>
+//                               </Command>
+//                             </PopoverContent>
+//                           </Popover>
+//                         </div>
+//                         <EpisodeList id={id} season={seasonValue} />
+//                       </div>
+//                     )}
+//                   </div>
+//                 </div>
+//               )}
+//             </>
+//           )}
+//         </div>
+//       </DrawerContent>
+//     </Drawer>
+//   );
+// }

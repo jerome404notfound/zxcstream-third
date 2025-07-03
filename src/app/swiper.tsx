@@ -17,7 +17,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 let showlist = [
-  { id: "559", media_type: "movie" },
+  { id: "93405", media_type: "tv" },
+  { id: "1233413", media_type: "movie" },
+  { id: "1234821", media_type: "movie" },
+  { id: "541671", media_type: "movie" },
   { id: "94605", media_type: "tv" },
   { id: "1396", media_type: "tv" },
   { id: "823219", media_type: "movie" },

@@ -9,6 +9,11 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+// Extend the Navigator interface to include the iOS standalone property
+interface IOSNavigator extends Navigator {
+  standalone?: boolean;
+}
+
 export function PWAInstallButton() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -23,8 +28,9 @@ export function PWAInstallButton() {
         return;
       }
 
-      // Check for iOS standalone mode
-      if ((window.navigator as any).standalone === true) {
+      // Check for iOS standalone mode with proper typing
+      const iosNavigator = window.navigator as IOSNavigator;
+      if (iosNavigator.standalone === true) {
         setIsInstalled(true);
         return;
       }
@@ -71,10 +77,8 @@ export function PWAInstallButton() {
     try {
       // Show the install prompt
       await deferredPrompt.prompt();
-
       // Wait for the user to respond to the prompt
       const { outcome } = await deferredPrompt.userChoice;
-
       console.log(`User response to the install prompt: ${outcome}`);
 
       if (outcome === "accepted") {

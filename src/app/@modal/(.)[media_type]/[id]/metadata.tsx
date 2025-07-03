@@ -78,8 +78,8 @@ export default function DrawerMetadata({
             <div className="mask-gradient h-full w-full flex justify-center items-center   lg:aspect-[16/8] aspect-[16/10]">
               <iframe
                 width="100%"
-                height="150%"
-                className="fade-in transition-opacity duration-300 opacity-100 aspect-video  pointer-events-none "
+                height="190%"
+                className="fade-in transition-opacity duration-300 opacity-100 aspect-video "
                 src={`https://www.youtube-nocookie.com/embed/${trailerKey?.key}?autoplay=1&loop=1&playlist=${trailerKey?.key}&controls=0&showinfo=0&&modestbranding=1&&rel=0`}
                 title="Trailer"
                 allow="autoplay; encrypted-media"

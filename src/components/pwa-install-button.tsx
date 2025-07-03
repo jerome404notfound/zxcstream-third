@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Smartphone, Share } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-// Extend the Navigator interface to include the iOS standalone property
 interface IOSNavigator extends Navigator {
   standalone?: boolean;
 }
@@ -19,96 +18,183 @@ export function PWAInstallButton() {
     useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<string[]>([]);
+
+  // Debug function
+  const addDebugInfo = (info: string) => {
+    console.log(`PWA Debug: ${info}`);
+    setDebugInfo((prev) => [
+      ...prev.slice(-4),
+      `${new Date().toLocaleTimeString()}: ${info}`,
+    ]);
+  };
 
   useEffect(() => {
+    // Detect iOS
+    const isIOSDevice =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    setIsIOS(isIOSDevice);
+    addDebugInfo(`iOS detected: ${isIOSDevice}`);
+
     // Check if app is already installed
     const checkIfInstalled = () => {
       if (window.matchMedia("(display-mode: standalone)").matches) {
         setIsInstalled(true);
-        return;
+        addDebugInfo("App already installed (standalone mode)");
+        return true;
       }
 
-      // Check for iOS standalone mode with proper typing
       const iosNavigator = window.navigator as IOSNavigator;
       if (iosNavigator.standalone === true) {
         setIsInstalled(true);
-        return;
+        addDebugInfo("App already installed (iOS standalone)");
+        return true;
       }
+
+      addDebugInfo("App not installed");
+      return false;
     };
 
-    checkIfInstalled();
+    const installed = checkIfInstalled();
 
-    // Listen for the beforeinstallprompt event
-    const handleBeforeInstallPrompt = (e: Event) => {
-      console.log("beforeinstallprompt event fired");
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Save the event so it can be triggered later
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setIsInstallable(true);
-    };
+    if (!installed) {
+      // For iOS, we can't rely on beforeinstallprompt, so show button after a delay
+      if (isIOSDevice) {
+        setTimeout(() => {
+          setIsInstallable(true);
+          addDebugInfo("iOS: Setting installable to true");
+        }, 1000);
+      }
 
-    // Listen for the app being installed
-    const handleAppInstalled = () => {
-      console.log("PWA was installed");
-      setIsInstalled(true);
-      setIsInstallable(false);
-      setDeferredPrompt(null);
-    };
+      // Listen for the beforeinstallprompt event (Android/Desktop)
+      const handleBeforeInstallPrompt = (e: Event) => {
+        addDebugInfo("beforeinstallprompt event fired");
+        e.preventDefault();
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        setIsInstallable(true);
+      };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAppInstalled);
+      // Listen for the app being installed
+      const handleAppInstalled = () => {
+        addDebugInfo("PWA was installed");
+        setIsInstalled(true);
+        setIsInstallable(false);
+        setDeferredPrompt(null);
+      };
 
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.addEventListener("appinstalled", handleAppInstalled);
+
+      // Cleanup
+      return () => {
+        window.removeEventListener(
+          "beforeinstallprompt",
+          handleBeforeInstallPrompt
+        );
+        window.removeEventListener("appinstalled", handleAppInstalled);
+      };
+    }
   }, []);
 
   const handleInstallClick = async () => {
+    if (isIOS) {
+      // For iOS, show manual installation instructions
+      setShowIOSInstructions(true);
+      addDebugInfo("Showing iOS install instructions");
+      return;
+    }
+
     if (!deferredPrompt) {
-      console.log("No deferred prompt available");
+      addDebugInfo("No deferred prompt available");
       return;
     }
 
     try {
-      // Show the install prompt
       await deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
       const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response to the install prompt: ${outcome}`);
+      addDebugInfo(`User response: ${outcome}`);
 
-      if (outcome === "accepted") {
-        console.log("User accepted the install prompt");
-      } else {
-        console.log("User dismissed the install prompt");
-      }
-
-      // Clear the deferred prompt
       setDeferredPrompt(null);
       setIsInstallable(false);
     } catch (error) {
+      addDebugInfo(`Installation error: ${error}`);
       console.error("Error during installation:", error);
     }
   };
 
   // Don't show button if app is already installed
   if (isInstalled) {
-    return null;
+    return (
+      <div className="text-sm text-green-600 flex items-center gap-2">
+        <Smartphone className="w-4 h-4" />
+        App installed
+      </div>
+    );
   }
 
-  // Don't show button if not installable
-  if (!isInstallable || !deferredPrompt) {
-    return null;
+  // Show iOS instructions modal
+  if (showIOSInstructions) {
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg p-6 max-w-sm w-full">
+          <h3 className="font-semibold mb-4">Install App on iOS</h3>
+          <div className="space-y-3 text-sm">
+            <div className="flex items-center gap-2">
+              <Share className="w-4 h-4" />
+              <span>1. Tap the Share button</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Smartphone className="w-4 h-4" />
+              <span>2. Scroll down and tap "Add to Home Screen"</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              <span>3. Tap "Add" to install</span>
+            </div>
+          </div>
+          <Button
+            onClick={() => setShowIOSInstructions(false)}
+            className="w-full mt-4"
+          >
+            Got it
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Show button if installable OR for debugging purposes
+  const shouldShowButton =
+    isInstallable || (!isInstalled && process.env.NODE_ENV === "development");
+
+  if (!shouldShowButton) {
+    return (
+      <div className="text-sm text-gray-500">
+        <div>Install not available</div>
+        {process.env.NODE_ENV === "development" && (
+          <details className="mt-2">
+            <summary className="cursor-pointer">Debug Info</summary>
+            <div className="text-xs mt-1 space-y-1">
+              {debugInfo.map((info, i) => (
+                <div key={i}>{info}</div>
+              ))}
+              <div>isInstallable: {isInstallable.toString()}</div>
+              <div>deferredPrompt: {deferredPrompt ? "available" : "null"}</div>
+              <div>isIOS: {isIOS.toString()}</div>
+            </div>
+          </details>
+        )}
+      </div>
+    );
   }
 
   return (
-    <Button onClick={handleInstallClick}>
-      <Download className="w-5 h-5" />
-      Install App
+    <Button onClick={handleInstallClick} variant="outline">
+      <Download className="w-4 h-4" />
+      {isIOS ? "Install Instructions" : "Install App"}
     </Button>
   );
 }

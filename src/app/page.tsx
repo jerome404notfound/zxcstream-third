@@ -45,8 +45,8 @@ export default function Home() {
     <main>
       <SwiperBackdrops />
       <div className="lg:space-y-20 space-y-10">
-        <RecentlyWatched />
         <Ten />
+        <RecentlyWatched />
         <ClassicMovies />
         <GenreMovies />
         <RuntimeMovies />

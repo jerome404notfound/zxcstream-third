@@ -2,258 +2,174 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, AlertCircle, CheckCircle, XCircle } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Download, Smartphone, Monitor, X } from "lucide-react";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt(): Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
-
+// Extend the Navigator interface to include the iOS standalone property
 interface IOSNavigator extends Navigator {
   standalone?: boolean;
 }
 
-interface PWARequirement {
-  name: string;
-  met: boolean;
-  description: string;
-}
-
 export function PWAInstallButton() {
-  const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
-  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
-  const [requirements, setRequirements] = useState<PWARequirement[]>([]);
-  const [showDebug, setShowDebug] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const checkPWARequirements = async () => {
-      const reqs: PWARequirement[] = [];
-
-      // Check HTTPS
-      const isHTTPS =
-        location.protocol === "https:" || location.hostname === "localhost";
-      reqs.push({
-        name: "HTTPS",
-        met: isHTTPS,
-        description: "App must be served over HTTPS (or localhost)",
-      });
-
-      // Check for manifest
-      let hasValidManifest = false;
-      try {
-        const manifestLink = document.querySelector(
-          'link[rel="manifest"]'
-        ) as HTMLLinkElement;
-        if (manifestLink) {
-          const response = await fetch(manifestLink.href);
-          if (response.ok) {
-            const manifest = await response.json();
-            hasValidManifest = !!(
-              manifest.name &&
-              manifest.start_url &&
-              manifest.icons?.length > 0
-            );
-          }
-        }
-      } catch (error) {
-        console.error("Error checking manifest:", error);
-      }
-
-      reqs.push({
-        name: "Web App Manifest",
-        met: hasValidManifest,
-        description: "Valid manifest.json with name, start_url, and icons",
-      });
-
-      // Check for service worker
-      const hasServiceWorker =
-        "serviceWorker" in navigator &&
-        (await navigator.serviceWorker.getRegistrations()).length > 0;
-
-      reqs.push({
-        name: "Service Worker",
-        met: hasServiceWorker,
-        description: "Service worker must be registered",
-      });
-
-      // Check if already installed
-      const isStandalone = window.matchMedia(
-        "(display-mode: standalone)"
-      ).matches;
-      const iosNavigator = window.navigator as IOSNavigator;
-      const isIOSStandalone = iosNavigator.standalone === true;
-
-      reqs.push({
-        name: "Not Already Installed",
-        met: !isStandalone && !isIOSStandalone,
-        description: "App is not already installed",
-      });
-
-      setRequirements(reqs);
-
-      // Set installed state
-      if (isStandalone || isIOSStandalone) {
+    // Check if app is already installed
+    const checkIfInstalled = () => {
+      if (window.matchMedia("(display-mode: standalone)").matches) {
         setIsInstalled(true);
+        return;
       }
 
-      return reqs.every((req) => req.met);
-    };
-
-    // Detect iOS
-    const isIOSDevice =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-    setIsIOS(isIOSDevice);
-
-    checkPWARequirements().then((allRequirementsMet) => {
-      if (allRequirementsMet && !isInstalled) {
-        if (isIOSDevice) {
-          // iOS doesn't fire beforeinstallprompt, so set installable directly
-          setIsInstallable(true);
-        }
-        // For other platforms, wait for beforeinstallprompt
+      // Check for iOS standalone mode with proper typing
+      const iosNavigator = window.navigator as IOSNavigator;
+      if (iosNavigator.standalone === true) {
+        setIsInstalled(true);
+        return;
       }
-    });
-
-    // Listen for beforeinstallprompt (Android/Desktop)
-    const handleBeforeInstallPrompt = (e: Event) => {
-      console.log("beforeinstallprompt event fired");
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setIsInstallable(true);
     };
 
-    const handleAppInstalled = () => {
-      console.log("PWA was installed");
-      setIsInstalled(true);
-      setIsInstallable(false);
-      setDeferredPrompt(null);
-    };
+    checkIfInstalled();
+  }, []);
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAppInstalled);
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
-  }, [isInstalled]);
-
-  const handleInstallClick = async () => {
-    if (isIOS) {
-      setShowIOSInstructions(true);
-      return;
-    }
-
-    if (!deferredPrompt) {
-      console.log("No deferred prompt available");
-      return;
-    }
-
-    try {
-      await deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response: ${outcome}`);
-      setDeferredPrompt(null);
-      setIsInstallable(false);
-    } catch (error) {
-      console.error("Error during installation:", error);
-    }
-  };
-
-  // Show iOS instructions modal
-  if (showIOSInstructions) {
-    return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-          <h3 className="font-semibold mb-4">Install App on iOS</h3>
-          <div className="space-y-3 text-sm">
-            <div>1. Tap the Share button in Safari</div>
-            <div>2. Scroll down and tap Add to Home Screen</div>
-            <div>3. Tap Add to install</div>
-          </div>
-          <Button
-            onClick={() => setShowIOSInstructions(false)}
-            className="w-full mt-4"
-          >
-            Got it
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
+  // Don't show button if app is already installed
   if (isInstalled) {
-    return (
-      <div className="text-sm text-green-600 flex items-center gap-2">
-        <CheckCircle className="w-4 h-4" />
-        App installed
-      </div>
-    );
-  }
-
-  const allRequirementsMet = requirements.every((req) => req.met);
-  const canInstall = isInstallable && (deferredPrompt || isIOS);
-
-  if (canInstall) {
-    return (
-      <Button onClick={handleInstallClick} className="flex items-center gap-2">
-        <Download className="w-4 h-4" />
-        {isIOS ? "Install Instructions" : "Install App"}
-      </Button>
-    );
+    return null;
   }
 
   return (
-    <div className="space-y-2">
-      <div className="text-sm text-gray-600 flex items-center gap-2">
-        <AlertCircle className="w-4 h-4" />
-        Install not available
-      </div>
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <Button variant="outline">
+          <Download className="w-5 h-5" />
+          <span className="hidden lg:block"> Install App</span>
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Install App</DrawerTitle>
+          <DrawerDescription>
+            Follow the instructions below to install this app on your device
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="px-4 pb-4">
+          <Tabs defaultValue="android" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="android" className="flex items-center gap-2">
+                <Smartphone className="w-4 h-4" />
+                Android
+              </TabsTrigger>
+              <TabsTrigger value="iphone" className="flex items-center gap-2">
+                <Smartphone className="w-4 h-4" />
+                iPhone
+              </TabsTrigger>
+              <TabsTrigger value="windows" className="flex items-center gap-2">
+                <Monitor className="w-4 h-4" />
+                Windows
+              </TabsTrigger>
+            </TabsList>
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setShowDebug(!showDebug)}
-      >
-        {showDebug ? "Hide" : "Show"} Requirements
-      </Button>
-
-      {showDebug && (
-        <div className="border rounded-lg p-3 space-y-2 text-sm">
-          <div className="font-medium">PWA Requirements:</div>
-          {requirements.map((req, i) => (
-            <div key={i} className="flex items-start gap-2">
-              {req.met ? (
-                <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-              ) : (
-                <XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-              )}
-              <div>
-                <div className={req.met ? "text-green-700" : "text-red-700"}>
-                  {req.name}
-                </div>
-                <div className="text-gray-600 text-xs">{req.description}</div>
+            <TabsContent value="android" className="mt-4 space-y-4">
+              <div className="space-y-3">
+                <h4 className="font-semibold">Chrome Browser:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm">
+                  <li>Open this website in Chrome browser</li>
+                  <li>Tap the menu button (three dots) in the top right</li>
+                  <li>
+                    Select &quot;Add to Home screen&quot; or &quot;Install
+                    app&quot;
+                  </li>
+                  <li>Tap &quot;Add&quot; or &quot;Install&quot; to confirm</li>
+                  <li>The app will be added to your home screen</li>
+                </ol>
               </div>
-            </div>
-          ))}
+              <div className="space-y-3">
+                <h4 className="font-semibold">Samsung Internet:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm">
+                  <li>Open this website in Samsung Internet</li>
+                  <li>Tap the menu button (three lines)</li>
+                  <li>
+                    Select &quot;Add page to&quot; → &quot;Home screen&quot;
+                  </li>
+                  <li>Tap &quot;Add&quot; to confirm</li>
+                </ol>
+              </div>
+            </TabsContent>
 
-          <div className="mt-3 pt-2 border-t text-xs text-gray-500">
-            <div>
-              beforeinstallprompt fired: {deferredPrompt ? "Yes" : "No"}
-            </div>
-            <div>Platform: {isIOS ? "iOS" : "Other"}</div>
-            <div>All requirements met: {allRequirementsMet ? "Yes" : "No"}</div>
-          </div>
+            <TabsContent value="iphone" className="mt-4 space-y-4">
+              <div className="space-y-3">
+                <h4 className="font-semibold">Safari Browser:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm">
+                  <li>Open this website in Safari browser</li>
+                  <li>
+                    Tap the Share button (square with arrow up) at the bottom
+                  </li>
+                  <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
+                  <li>Edit the name if desired, then tap &quot;Add&quot;</li>
+                  <li>The app will appear on your home screen</li>
+                </ol>
+                <div className="p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
+                  <strong>Note:</strong> This feature only works in Safari
+                  browser, not in Chrome or other browsers on iOS.
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="windows" className="mt-4 space-y-4">
+              <div className="space-y-3">
+                <h4 className="font-semibold">Microsoft Edge:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm">
+                  <li>Open this website in Microsoft Edge</li>
+                  <li>Click the menu button (three dots) in the top right</li>
+                  <li>
+                    Select &quot;Apps&quot; → &quot;Install this site as an
+                    app&quot;
+                  </li>
+                  <li>Click &quot;Install&quot; to confirm</li>
+                  <li>The app will be added to your Start menu and desktop</li>
+                </ol>
+              </div>
+              <div className="space-y-3">
+                <h4 className="font-semibold">Google Chrome:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm">
+                  <li>Open this website in Google Chrome</li>
+                  <li>
+                    Click the install icon in the address bar (if available)
+                  </li>
+                  <li>
+                    Or click the menu button (three dots) → &quot;More
+                    tools&quot; → &quot;Create shortcut&quot;
+                  </li>
+                  <li>
+                    Check &quot;Open as window&quot; and click
+                    &quot;Create&quot;
+                  </li>
+                  <li>The app will be added to your desktop and Start menu</li>
+                </ol>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
-      )}
-    </div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">
+              <X className="w-4 h-4 mr-2" />
+              Close
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }

@@ -41,7 +41,7 @@ export default function WatchPage() {
   const [openDialog, setOpenDialog] = useState(true);
   const [selected, setSelected] = useState(defaultServer);
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -156,9 +156,9 @@ export default function WatchPage() {
     };
   }, [saveCurrentProgress]);
 
-  useEffect(() => {
-    setIsLoading(true);
-  }, [selected, sandboxEnabled]);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  // }, [selected, sandboxEnabled]);
 
   const current = servers.find((server) => server.name === selected);
   const src =
@@ -225,20 +225,20 @@ export default function WatchPage() {
               </Button>
             </div>
             <div className="relative flex-1">
-              {isLoading && (
+              {/* {isLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center gap-4">
                     <div className="w-9 h-9 border-4 border-transparent border-t-white rounded-full animate-spin"></div>
                     <p className="text-white text-sm">Loading video...</p>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {src && (
                 <iframe
                   key={`${src}-${sandboxEnabled}`}
                   src={src}
-                  onLoad={() => setIsLoading(false)}
+                  // onLoad={() => setIsLoading(false)}
                   title="Video Player"
                   className="h-full w-full"
                   allowFullScreen
@@ -317,7 +317,7 @@ export default function WatchPage() {
                 key={server.name}
                 onClick={() => {
                   setSelected(server.name);
-                  setIsLoading(true);
+                  // setIsLoading(true);
                   setOpen(false);
                   setSandboxEnabled(server.sandboxSupport);
                 }}

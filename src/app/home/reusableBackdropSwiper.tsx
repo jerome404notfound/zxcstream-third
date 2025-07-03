@@ -4,12 +4,12 @@ import { Navigation, Pagination, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { SaveProgressType } from "./@modal/(.)watch/save-progress";
+import { SaveProgressType } from "../@modal/(.)watch/save-progress";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import BackdropCard from "./card-backdrop";
+import BackdropCard from "../../components/card-backdrop";
 interface Media {
   label: string;
   value: string;
@@ -22,7 +22,6 @@ export default function ReusableBackdropSwiper({
   media,
   setMedia,
   mediaOptions,
-
 }: {
   title: string;
   data: SaveProgressType[];
@@ -30,7 +29,6 @@ export default function ReusableBackdropSwiper({
   media: string;
   setMedia: React.Dispatch<React.SetStateAction<string>>;
   mediaOptions: Media[];
-
 }) {
   return (
     data.length !== 0 && (

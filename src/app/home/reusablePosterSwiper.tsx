@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { MovieType } from "@/lib/getMovieData";
 import { motion } from "framer-motion";
-import { MovieCard } from "./card";
+import { MovieCard } from "../../components/card-poster";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StateSetter } from "@/lib/useCategory";

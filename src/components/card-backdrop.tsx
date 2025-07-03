@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SaveProgressType } from "./@modal/(.)watch/save-progress";
+import { SaveProgressType } from "../app/@modal/(.)watch/save-progress";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 

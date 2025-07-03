@@ -3,13 +3,13 @@
 
 @font-face {
   font-family: "CustomFont";
-  src: url("/havelock-bold.otf") format("opentype");
+  src: url("/fonts/havelock-bold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Quicksand";
-  src: url("/Quicksand-Regular.ttf") format("truetype");
+  src: url("/fonts/Quicksand-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -94,7 +94,7 @@
   height: 4px !important;
   border-radius: 10px !important;
 }
-.swiper-pagination-bullet-active{
+.swiper-pagination-bullet-active {
   background-color: rgb(28, 48, 204) !important;
 }
 

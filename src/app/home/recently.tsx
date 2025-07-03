@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Tally1, Tally2, Tally3, Tally4, Tally5 } from "lucide-react";
-import type { SaveProgressType } from "./@modal/(.)watch/save-progress";
+import type { SaveProgressType } from "../@modal/(.)watch/save-progress";
 import ReusableBackdropSwiper from "./reusableBackdropSwiper";
 
 export default function RecentlyWatched() {

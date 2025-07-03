@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { MovieType } from "@/lib/getMovieData";
 import { Button } from "@/components/ui/button";
-import { MovieCard } from "@/app/card";
+import { MovieCard } from "@/components/card-poster";
 import { LoaderCircleIcon, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 

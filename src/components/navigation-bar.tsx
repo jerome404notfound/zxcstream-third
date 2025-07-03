@@ -39,7 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import SpotlightBorderWrapper from "@/components/ui/border";
-import { ModeToggle } from "./darkmode-toggle";
+import { ModeToggle } from "./ui/darkmode-toggle";
 const items = [
   {
     name: "Movie",

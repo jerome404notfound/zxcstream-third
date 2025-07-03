@@ -5,7 +5,7 @@ import { Navigation, Pagination, Controller, Autoplay } from "swiper/modules";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
 import { Skeleton } from "@/components/ui/skeleton";
-import useFetchTmdb from "./fetchMovie";
+import useFetchTmdb from "../../lib/fetchMovie";
 import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";

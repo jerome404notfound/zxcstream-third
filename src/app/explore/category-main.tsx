@@ -1,7 +1,7 @@
 "use client";
 import { MovieType } from "@/lib/getMovieData";
 import dynamic from "next/dynamic";
-import { MovieCard } from "./card";
+import { MovieCard } from "../../components/card-poster";
 import { Button } from "@/components/ui/button";
 import { Info, LoaderCircleIcon, Play, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

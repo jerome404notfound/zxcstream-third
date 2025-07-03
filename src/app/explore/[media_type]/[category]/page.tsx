@@ -1,7 +1,7 @@
 "use client";
 
 import { useCategory } from "@/lib/useCategory";
-import ReusableCategory from "@/app/category-main";
+import ReusableCategory from "@/app/explore/category-main";
 import { usePathname } from "next/navigation";
 export default function PopularData() {
   const path = usePathname();

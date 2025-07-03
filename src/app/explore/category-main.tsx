@@ -179,7 +179,7 @@ export default function ReusableCategory({
   };
   return (
     <main>
-      <div className="relative lg:h-[75vh] h-[50vh] w-full ">
+      <div className="relative lg:h-[75vh] h-[53vh] w-full ">
         {loading ? <SkeletonLoading /> : <HeroComponent />}
         <MobileHeroComponent />
       </div>

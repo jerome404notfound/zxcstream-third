@@ -14,6 +14,83 @@ import {
 } from "@/components/ui/drawer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, Smartphone, Monitor, X } from "lucide-react";
+type BrowserInstructions = {
+  name: string;
+  steps: string[];
+  note?: string; // Mark 'note' as optional
+};
+
+type TabInstruction = {
+  value: string;
+  browsers: BrowserInstructions[];
+};
+const pwaInstructions: TabInstruction[] = [
+  {
+    value: "android",
+    browsers: [
+      {
+        name: "Chrome Browser",
+        steps: [
+          "Open this website in Chrome browser",
+          "Tap the menu button (three dots) in the top right",
+          'Select "Add to Home screen" or "Install app"',
+          'Tap "Add" or "Install" to confirm',
+          "The app will be added to your home screen",
+        ],
+      },
+      {
+        name: "Samsung Internet",
+        steps: [
+          "Open this website in Samsung Internet",
+          "Tap the menu button (three lines)",
+          'Select "Add page to" → "Home screen"',
+          'Tap "Add" to confirm',
+        ],
+      },
+    ],
+  },
+  {
+    value: "iphone",
+    browsers: [
+      {
+        name: "Safari Browser",
+        steps: [
+          "Open this website in Safari browser",
+          "Tap the Share button (square with arrow up) at the bottom",
+          'Scroll down and tap "Add to Home Screen"',
+          'Edit the name if desired, then tap "Add"',
+          "The app will appear on your home screen",
+        ],
+        note: "Note: This feature only works in Safari browser, not in Chrome or other browsers on iOS.",
+      },
+    ],
+  },
+  {
+    value: "windows",
+    browsers: [
+      {
+        name: "Microsoft Edge",
+        steps: [
+          "Open this website in Microsoft Edge",
+          "Click the menu button (three dots) in the top right",
+          'Select "Apps" > "Install this site as an app"',
+          'Click "Install" to confirm',
+          "The app will be added to your Start menu and desktop",
+        ],
+      },
+      {
+        name: "Google Chrome",
+        steps: [
+          "Open this website in Google Chrome",
+          "Click the install icon in the address bar (if available)",
+          'Or click the menu button (three dots) > "More tools" → "Create shortcut"',
+          'Check "Open as window" and click "Create"',
+          "The app will be added to your desktop and Start menu",
+        ],
+      },
+    ],
+  },
+];
 
 // Extend the Navigator interface to include the iOS standalone property
 interface IOSNavigator extends Navigator {
@@ -58,13 +135,16 @@ export function PWAInstallButton() {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Install App</DrawerTitle>
+          <DrawerTitle>Install ZXCSTREAM App</DrawerTitle>
           <DrawerDescription>
             Follow the instructions below to install this app on your device
           </DrawerDescription>
         </DrawerHeader>
         <div className="px-4 pb-4">
-          <Tabs defaultValue="android" className="w-full">
+          <Tabs
+            defaultValue="android"
+            className="w-full max-h-96 overflow-auto"
+          >
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="android" className="flex items-center gap-2">
                 <Smartphone className="w-4 h-4" />
@@ -80,91 +160,39 @@ export function PWAInstallButton() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="android" className="mt-4 space-y-4">
-              <div className="space-y-3">
-                <h4 className="font-semibold">Chrome Browser:</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Open this website in Chrome browser</li>
-                  <li>Tap the menu button (three dots) in the top right</li>
-                  <li>
-                    Select &quot;Add to Home screen&quot; or &quot;Install
-                    app&quot;
-                  </li>
-                  <li>Tap &quot;Add&quot; or &quot;Install&quot; to confirm</li>
-                  <li>The app will be added to your home screen</li>
-                </ol>
-              </div>
-              <div className="space-y-3">
-                <h4 className="font-semibold">Samsung Internet:</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Open this website in Samsung Internet</li>
-                  <li>Tap the menu button (three lines)</li>
-                  <li>
-                    Select &quot;Add page to&quot; → &quot;Home screen&quot;
-                  </li>
-                  <li>Tap &quot;Add&quot; to confirm</li>
-                </ol>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="iphone" className="mt-4 space-y-4">
-              <div className="space-y-3">
-                <h4 className="font-semibold">Safari Browser:</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Open this website in Safari browser</li>
-                  <li>
-                    Tap the Share button (square with arrow up) at the bottom
-                  </li>
-                  <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
-                  <li>Edit the name if desired, then tap &quot;Add&quot;</li>
-                  <li>The app will appear on your home screen</li>
-                </ol>
-                <div className="p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
-                  <strong>Note:</strong> This feature only works in Safari
-                  browser, not in Chrome or other browsers on iOS.
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="windows" className="mt-4 space-y-4">
-              <div className="space-y-3">
-                <h4 className="font-semibold">Microsoft Edge:</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Open this website in Microsoft Edge</li>
-                  <li>Click the menu button (three dots) in the top right</li>
-                  <li>
-                    Select &quot;Apps&quot; → &quot;Install this site as an
-                    app&quot;
-                  </li>
-                  <li>Click &quot;Install&quot; to confirm</li>
-                  <li>The app will be added to your Start menu and desktop</li>
-                </ol>
-              </div>
-              <div className="space-y-3">
-                <h4 className="font-semibold">Google Chrome:</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li>Open this website in Google Chrome</li>
-                  <li>
-                    Click the install icon in the address bar (if available)
-                  </li>
-                  <li>
-                    Or click the menu button (three dots) → &quot;More
-                    tools&quot; → &quot;Create shortcut&quot;
-                  </li>
-                  <li>
-                    Check &quot;Open as window&quot; and click
-                    &quot;Create&quot;
-                  </li>
-                  <li>The app will be added to your desktop and Start menu</li>
-                </ol>
-              </div>
-            </TabsContent>
+            {pwaInstructions.map((tab) => (
+              <TabsContent
+                key={tab.value}
+                value={tab.value}
+                className="mt-4 space-y-4 "
+              >
+                {tab.browsers.map((browser, i) => (
+                  <div key={i} className="space-y-3">
+                    <h4 className="font-semibold">
+                      {browser.name} ({browser.steps.length} steps)
+                    </h4>
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-3">
+                      {browser.steps.map((step, j) => (
+                        <div className="border p-4 rounded-md" key={j}>
+                          {j + 1}.&nbsp;{step}
+                        </div>
+                      ))}
+                    </div>
+                    {browser?.note && (
+                      <div className="p-3 bg-popover rounded-lg text-sm text-blue-800">
+                        <strong>Note:</strong> {browser.note}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </TabsContent>
+            ))}
           </Tabs>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline">
-              <X className="w-4 h-4 mr-2" />
+              <X />
               Close
             </Button>
           </DrawerClose>

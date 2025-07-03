@@ -54,7 +54,7 @@ export default function SwiperBackdrops() {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        className="relative lg:h-[75vh] h-[55vh] w-full"
+        className="relative lg:h-[75vh] h-[53vh] w-full"
       >
         {loading ? (
           <SwiperSlide className="swiper-slide relative overflow-hidden">

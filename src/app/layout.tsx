@@ -51,6 +51,10 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"
+          strategy="afterInteractive"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

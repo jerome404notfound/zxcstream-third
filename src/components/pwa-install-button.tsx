@@ -148,11 +148,11 @@ export function PWAInstallButton() {
             </div>
             <div className="flex items-center gap-2">
               <Smartphone className="w-4 h-4" />
-              <span>2. Scroll down and tap "Add to Home Screen"</span>
+              <span>2. Scroll down and tap &quot;Add to Home Screen&quot;</span>
             </div>
             <div className="flex items-center gap-2">
               <Download className="w-4 h-4" />
-              <span>3. Tap "Add" to install</span>
+              <span>3. Tap &quot;Add&quot; to install</span>
             </div>
           </div>
           <Button

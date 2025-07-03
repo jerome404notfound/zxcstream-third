@@ -25,6 +25,7 @@ import {
 
 import logo from "@/assets/zxzx.png";
 import { useRouter, usePathname } from "next/navigation";
+import { PWAInstallButton } from "./pwa-install-button";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -262,8 +263,9 @@ export default function NavBar() {
         </div>
 
         <div className="absolute lg:right-20 right-3 flex items-center gap-3">
-          <div>
+          <div className="flex gap-3">
             <ModeToggle />
+            <PWAInstallButton />
           </div>
         </div>
       </header>

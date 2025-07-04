@@ -1,5 +1,4 @@
-const CACHE_NAME = "zxc-stream-v1.1";
-
+const CACHE_NAME = "zxc-stream-v2";
 const urlsToCache = [
   "/",
   "/manifest.json",
@@ -17,12 +16,14 @@ const urlsToCache = [
   "/fonts/Quicksand-Regular.ttf",
 ];
 
-// Install event - same as before
+// Install event - cache resources with better error handling
 self.addEventListener("install", (event) => {
   console.log("SW installing...");
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache");
+
+      // Cache files one by one to see which one fails
       return Promise.allSettled(
         urlsToCache.map((url) =>
           cache
@@ -41,120 +42,18 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// UPDATED FETCH EVENT - Different strategies for different content types
+// Rest of your service worker code stays the same...
 self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // 1. API Data: Network first, cache fallback
-  if (request.url.includes("/api/") || request.url.includes("tmdb.org/3/")) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Only cache successful responses
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request, responseClone);
-            });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Network failed, try cache
-          return caches.match(request);
-        })
-    );
-  }
-
-  // 2. Images: Cache first with stale-while-revalidate
-  else if (
-    request.destination === "image" ||
-    request.url.includes("image.tmdb.org") ||
-    request.url.includes(".jpg") ||
-    request.url.includes(".png") ||
-    request.url.includes(".webp")
-  ) {
-    event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        // Return cached version immediately
-        if (cachedResponse) {
-          // Update cache in background (stale-while-revalidate)
-          fetch(request)
-            .then((freshResponse) => {
-              if (freshResponse.status === 200) {
-                caches.open(CACHE_NAME).then((cache) => {
-                  cache.put(request, freshResponse.clone());
-                });
-              }
-            })
-            .catch(() => {
-              // Network failed, but we have cached version
-            });
-
-          return cachedResponse;
-        }
-
-        // No cached version, fetch from network
-        return fetch(request).then((response) => {
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request, responseClone);
-            });
-          }
-          return response;
-        });
-      })
-    );
-  }
-
-  // 3. Critical Updates: Network only (always fresh)
-  else if (
-    request.url.includes("/critical/") ||
-    request.url.includes("/user/") ||
-    request.url.includes("/auth/")
-  ) {
-    event.respondWith(
-      fetch(request).catch(() => {
-        // Only fallback to cache for GET requests
-        if (request.method === "GET") {
-          return caches.match(request);
-        }
-        throw new Error("Network unavailable");
-      })
-    );
-  }
-
-  // 4. App Shell: Cache first, update in background
-  else {
-    event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          // Update cache in background
-          fetch(request)
-            .then((freshResponse) => {
-              if (freshResponse.status === 200) {
-                caches.open(CACHE_NAME).then((cache) => {
-                  cache.put(request, freshResponse.clone());
-                });
-              }
-            })
-            .catch(() => {
-              // Network failed, but we have cached version
-            });
-
-          return cachedResponse;
-        }
-
-        // No cached version, fetch from network
-        return fetch(request);
-      })
-    );
-  }
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response;
+      }
+      return fetch(event.request);
+    })
+  );
 });
 
-// Activate event - same as before
 self.addEventListener("activate", (event) => {
   console.log("SW activating...");
   event.waitUntil(
@@ -171,7 +70,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Push notification events - same as before
 self.addEventListener("push", function (event) {
   if (event.data) {
     const data = event.data.json();

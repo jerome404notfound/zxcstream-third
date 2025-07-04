@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
+import PlayerPage from "@/app/player";
 import {
   Drawer,
   DrawerClose,
@@ -36,7 +37,7 @@ export default function WatchPage() {
   const id = params?.[1];
   const season = params?.[2];
   const episode = params?.[3];
-  const defaultServer = searchParams.get("server") || "Server 1";
+  const defaultServer = searchParams.get("server") || "Default";
 
   const [openDialog, setOpenDialog] = useState(true);
   const [selected, setSelected] = useState(defaultServer);
@@ -234,19 +235,28 @@ export default function WatchPage() {
                 </div>
               )} */}
 
-              {src && (
-                <iframe
-                  key={`${src}-${sandboxEnabled}`}
-                  src={src}
-                  // onLoad={() => setIsLoading(false)}
-                  title="Video Player"
-                  className="h-full w-full"
-                  allowFullScreen
-                  frameBorder={0}
-                  {...(sandboxEnabled && {
-                    sandbox: "allow-scripts allow-same-origin allow-forms",
-                  })}
+              {selected === "Default" ? (
+                <PlayerPage
+                  media_type={media_type}
+                  tmdb={id}
+                  season={season}
+                  episode={episode}
                 />
+              ) : (
+                src && (
+                  <iframe
+                    key={`${src}-${sandboxEnabled}`}
+                    src={src}
+                    // onLoad={() => setIsLoading(false)}
+                    title="Video Player"
+                    className="h-full w-full"
+                    allowFullScreen
+                    frameBorder={0}
+                    {...(sandboxEnabled && {
+                      sandbox: "allow-scripts allow-same-origin allow-forms",
+                    })}
+                  />
+                )
               )}
             </div>
 

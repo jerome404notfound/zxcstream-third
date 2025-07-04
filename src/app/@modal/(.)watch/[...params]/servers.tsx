@@ -4,6 +4,15 @@ import { Tally1, Tally2, Tally3, Tally4, Tally5 } from "lucide-react";
 export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
+      name: "Default",
+      isRecommended: true,
+      sublabel: "No Ads",
+      sandboxSupport: true,
+      description:
+        "Fast and lightweight player with a simple interface. Note: Subtitle support is not available.",
+      value: "Default",
+    },
+    {
       name: "Server 1",
       sublabel: "Doesn't support sandbox",
       isRecommended: true,

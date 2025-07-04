@@ -35,6 +35,7 @@ export function MovieCard({ movie }: { movie: MovieType }) {
         <Image
           src={posterUrl || fallbackUrl}
           alt={movie.name || movie.title || "poster"}
+          unoptimized={true}
           width={300}
           height={417}
           className={`object-cover group-hover:scale-105 transition-all duration-200 ${

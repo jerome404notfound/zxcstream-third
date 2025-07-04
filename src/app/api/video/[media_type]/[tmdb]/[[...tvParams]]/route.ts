@@ -1,16 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
   context: {
-    params: {
+    params: Promise<{
       media_type: string;
       tmdb: string;
       tvParams?: string[];
-    };
+    }>;
   }
 ) {
-  const { media_type, tmdb, tvParams = [] } = context.params;
+  // Await the params since they're now a Promise in Next.js 15
+  const { media_type, tmdb, tvParams = [] } = await context.params;
 
   let embedUrl = "";
 
@@ -48,6 +49,7 @@ export async function GET(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
+
     return NextResponse.json(
       { error: "Fetch failed", details: errorMessage },
       { status: 500 }

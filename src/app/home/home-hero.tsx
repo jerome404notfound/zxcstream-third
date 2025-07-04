@@ -155,6 +155,7 @@ export default function SwiperBackdrops() {
               <Image
                 className="absolute h-full w-full object-cover object-[center_40%] mask-gradient backdrop opacity-backrop blur-[2px] lg:blur-[0]"
                 src={`https://image.tmdb.org/t/p/original/${meow.backdrop_path}`}
+                unoptimized={true}
                 fill
                 priority
                 alt="Lazy loaded"

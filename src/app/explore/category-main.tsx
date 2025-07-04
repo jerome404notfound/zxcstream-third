@@ -142,6 +142,7 @@ export default function ReusableCategory({
           className="absolute h-full w-full object-cover object-[center_40%] mask-gradient blur-[2px] lg:blur-[0] opacity-70"
           src={`https://image.tmdb.org/t/p/original/${meow.backdrop_path}`}
           alt="Lazy loaded"
+          unoptimized={true}
           priority
           fill
         />
@@ -166,6 +167,7 @@ export default function ReusableCategory({
                 <Image
                   src={`https://image.tmdb.org/t/p/w500/${meow.poster_path}`}
                   alt="Lazy loaded"
+                  unoptimized={true}
                   fill
                   className="object-cover object-center rounded-lg"
                   sizes="170px"

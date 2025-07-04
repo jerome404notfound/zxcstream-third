@@ -46,9 +46,12 @@ export async function GET(
     }
 
     return NextResponse.json({ video: videoUrl });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+
     return NextResponse.json(
-      { error: "Fetch failed", details: error.message },
+      { error: "Fetch failed", details: errorMessage },
       { status: 500 }
     );
   }

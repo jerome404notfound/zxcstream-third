@@ -6,7 +6,7 @@ export async function GET(
     params: {
       media_type: string;
       tmdb: string;
-      tvParams?: string[]; // [season_number, episode_number]
+      tvParams?: string[];
     };
   }
 ) {
@@ -30,7 +30,6 @@ export async function GET(
     });
 
     const html = await res.text();
-
     console.log(html.slice(0, 3000));
 
     const m3u8Match = html.match(/(https:\/\/[^"'<>\\\s]+\.m3u8[^"'<>\\\s]*)/);
@@ -49,7 +48,6 @@ export async function GET(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
-
     return NextResponse.json(
       { error: "Fetch failed", details: errorMessage },
       { status: 500 }

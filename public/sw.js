@@ -1,4 +1,4 @@
-const CACHE_NAME = "zxc-stream-v2";
+const CACHE_NAME = "zxc-stream-v3";
 const urlsToCache = [
   "/",
   "/manifest.json",
@@ -16,14 +16,12 @@ const urlsToCache = [
   "/fonts/Quicksand-Regular.ttf",
 ];
 
-// Install event - cache resources with better error handling
+// Install event - same as before
 self.addEventListener("install", (event) => {
   console.log("SW installing...");
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache");
-
-      // Cache files one by one to see which one fails
       return Promise.allSettled(
         urlsToCache.map((url) =>
           cache
@@ -42,18 +40,74 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Rest of your service worker code stays the same...
+// UPDATED FETCH EVENT - Handle TMDB images differently
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request);
-    })
-  );
+  const { request } = event;
+
+  // Handle TMDB images with network-first strategy
+  if (request.url.includes("image.tmdb.org")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          // Only cache successful responses
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              // Cache with expiration (24 hours)
+              cache.put(request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Network failed, try cache as fallback
+          return caches.match(request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // If no cache, return a placeholder or error response
+            throw new Error("Image not available");
+          });
+        })
+    );
+  }
+
+  // Handle API calls with network-first
+  else if (
+    request.url.includes("/api/") ||
+    request.url.includes("tmdb.org/3/")
+  ) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(request);
+        })
+    );
+  }
+
+  // Everything else: cache first (your app shell)
+  else {
+    event.respondWith(
+      caches.match(request).then((response) => {
+        if (response) {
+          return response;
+        }
+        return fetch(request);
+      })
+    );
+  }
 });
 
+// Activate event - same as before
 self.addEventListener("activate", (event) => {
   console.log("SW activating...");
   event.waitUntil(
@@ -70,6 +124,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Push notification events - same as before
 self.addEventListener("push", function (event) {
   if (event.data) {
     const data = event.data.json();

@@ -14,7 +14,7 @@ export default function ClientOnlyGuard({
     const timer = setTimeout(() => {
       const hostname = window.location.hostname;
 
-      const isLocal = hostname === "localhost" || hostname === "192.168.1.3";
+      const isLocal = hostname === "localhost" || hostname === "192.168.1.2";
 
       const isProd =
         hostname === "zxcstream" || // exact match
@@ -27,7 +27,7 @@ export default function ClientOnlyGuard({
       }
 
       setIsChecking(false);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);

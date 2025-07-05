@@ -6,9 +6,10 @@ import dynamic from "next/dynamic";
 const RecentlyWatched = dynamic(() => import("@/app/home/recently"), {
   loading: () => <p>loading recenlty</p>,
 });
-const Ten = dynamic(() => import("@/app/home/ten"), {
-  loading: () => <p>Loading</p>,
-});
+// const Ten = dynamic(() => import("@/app/home/ten"), {
+//   loading: () => <p>Loading</p>,
+// });
+import Ten from "./home/ten";
 const ClassicMovies = dynamic(() => import("@/app/home/classic"), {
   loading: () => <p>Loading</p>,
 });

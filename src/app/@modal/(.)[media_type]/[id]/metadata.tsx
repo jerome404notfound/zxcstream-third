@@ -1,34 +1,30 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCollection from "@/lib/collectionFetch";
 import { SwiperSlide, Swiper } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Keyboard } from "swiper/modules";
 import EnglishBackdropMeta from "./english-backdrop-meta";
 import { WatchlistButton } from "@/app/watchlist/watchlist-button";
 import { toast } from "sonner";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import {
-  Download,
-  LibraryBig,
-  Play,
-  PlayCircle,
-  Star,
-  ThumbsUp,
-} from "lucide-react";
+import { MonitorPlay, MonitorX, Play, PlayCircle, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import GetMovieData from "@/lib/getMovieData";
 import { Badge } from "@/components/ui/badge";
 import TmdbEpisode from "./tmdb-episode";
+import Image from "next/image";
+import { useState } from "react";
 
 export default function DrawerMetadata({
   id,
   media_type,
   setOpen,
-  // setNavigate,
-}: {
+}: // setNavigate,
+{
   id: string;
   media_type: string;
   setOpen: (open: boolean) => void;
@@ -42,7 +38,8 @@ export default function DrawerMetadata({
 
   const logoImage = show?.images?.logos[0]?.file_path;
   const { collection } = useCollection(show?.belongs_to_collection?.id);
-  console.log(show);
+  const [trailer, setTrailer] = useState(false);
+
   const router = useRouter();
   return (
     <div className="overflow-y-auto meow">
@@ -76,15 +73,26 @@ export default function DrawerMetadata({
         <>
           <div className="relative overflow-hidden ">
             <div className="mask-gradient h-full w-full flex justify-center items-center   lg:aspect-[16/8] aspect-[16/10]">
-              <iframe
-                width="100%"
-                height="190%"
-                className="fade-in transition-opacity duration-300 opacity-100 aspect-video "
-                src={`https://www.youtube-nocookie.com/embed/${trailerKey?.key}?autoplay=1&loop=1&playlist=${trailerKey?.key}&controls=0&showinfo=0&&modestbranding=1&&rel=0`}
-                title="Trailer"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              ></iframe>
+              {trailer ? (
+                <iframe
+                  width="100%"
+                  height="190%"
+                  className="fade-in transition-opacity duration-300 opacity-100 aspect-video "
+                  src={`https://www.youtube-nocookie.com/embed/${trailerKey?.key}?autoplay=1&loop=1&playlist=${trailerKey?.key}&controls=0&showinfo=0&&modestbranding=1&&rel=0`}
+                  title="Trailer"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <Image
+                  src={`https://image.tmdb.org/t/p/w1280/${show?.backdrop_path}`}
+                  unoptimized={true}
+                  className="object-cover"
+                  fill
+                  priority
+                  alt="Lazy loaded"
+                />
+              )}
             </div>
 
             <div className="absolute lg:left-8 lg:bottom-8 left-3 bottom-3 lg:w-[35%] w-[50%] z-50">
@@ -136,9 +144,17 @@ export default function DrawerMetadata({
                         Play Now
                       </Button>
                     </Link>
-                    <Button>
-                      <Download />
-                    </Button>
+
+                    {trailer ? (
+                      <Button onClick={() => setTrailer(false)}>
+                        <MonitorX />
+                      </Button>
+                    ) : (
+                      <Button onClick={() => setTrailer(true)}>
+                        <MonitorPlay />
+                      </Button>
+                    )}
+
                     <WatchlistButton movie={show} />
                   </div>
                   <div className="flex items-center gap-3 mt-5">
@@ -164,7 +180,7 @@ export default function DrawerMetadata({
                         <>
                           ·
                           <Badge variant="outline">
-                            {show?.content_ratings?.results[0]?.rating}+
+                            {show?.content_ratings?.results[0]?.rating}
                           </Badge>
                         </>
                       )}
@@ -174,7 +190,11 @@ export default function DrawerMetadata({
                 <span className="lg:w-[35%] w-full flex flex-col gap-5">
                   <span>
                     <span className="text-muted-foreground">Genres:</span>
-                    <span> {show?.genres?.map((g) => g.name).join(", ")}</span>
+                    <span>
+                      {" "}
+                      {show?.genres?.map((g) => g.name).join(", ") ||
+                        "N/A"}{" "}
+                    </span>
                   </span>
 
                   <span>
@@ -182,12 +202,12 @@ export default function DrawerMetadata({
                     {show.credits.cast
                       .slice(0, 5)
                       .map((c) => c.name)
-                      .join(", ")}
+                      .join(", ") || "N/A"}
                   </span>
 
                   <span className="flex gap-2">
                     <span className="text-muted-foreground">Status:</span>
-                    <span>{show.status}</span>
+                    <span>{show.status || "N/A"}</span>
                   </span>
                 </span>
               </div>
@@ -195,11 +215,11 @@ export default function DrawerMetadata({
                 {media_type === "movie" &&
                   show.belongs_to_collection !== null && (
                     <div className="space-y-3 mt-8">
-                      <h1 className="flex gap-2 items-center text-xl font-semibold">
-                        <LibraryBig />
+                      <p className="text-foreground relative font-semibold text-[1.1rem] lg:text-xl  lg:border-l-4 border-l-2 border-blue-800 lg:pl-6 pl-3 flex items-center gap-2">
                         {show.belongs_to_collection.name}
-                      </h1>
-                      <div className="grid lg:grid-cols-3 grid-cols-2 lg:gap-3 gap-1">
+                      </p>
+
+                      <div className="grid lg:grid-cols-3 grid-cols-2  lg:gap-5 gap-3">
                         {collection?.parts.map((meow) => (
                           <EnglishBackdropMeta
                             key={meow.id}
@@ -218,19 +238,52 @@ export default function DrawerMetadata({
                 {(show?.recommendations?.results?.length > 0 ||
                   show?.similar?.results?.length > 0) && (
                   <div className="mt-8 space-y-3">
-                    <h1 className="text-lg font-semibold flex items-center gap-2">
-                      <ThumbsUp className="h-5 w-5" />
-                      You May Also Like
-                    </h1>
+                    <p className="text-foreground relative font-semibold text-[1.1rem] lg:text-xl  lg:border-l-4 border-l-2 border-blue-800 lg:pl-6 pl-3 flex items-center gap-2">
+                      You may also like
+                    </p>
                     <Swiper
-                      modules={[Navigation, Pagination]}
-                      freeMode={true}
-                      className="!pb-5"
-                      slidesPerView="auto"
-                      spaceBetween={10}
+                      modules={[Navigation, Pagination, Keyboard]}
+                      slidesPerView={6}
+                      spaceBetween={15}
+                      keyboard={{
+                        enabled: true,
+                        onlyInViewport: true,
+                      }}
                       navigation={{
                         nextEl: ".swiper-button-next",
                         prevEl: ".swiper-button-prev",
+                      }}
+                      pagination={{
+                        el: ".swiper-pagination",
+                        clickable: true,
+                        type: "bullets",
+                      }}
+                      breakpoints={{
+                        320: {
+                          slidesPerView: 3,
+                          slidesPerGroup: 3,
+                          spaceBetween: 10,
+                        },
+                        480: {
+                          slidesPerView: 3,
+                          slidesPerGroup: 3,
+                          spaceBetween: 10,
+                        },
+                        640: {
+                          slidesPerView: 4,
+                          slidesPerGroup: 4,
+                          spaceBetween: 12,
+                        },
+                        768: {
+                          slidesPerView: 5,
+                          slidesPerGroup: 5,
+                          spaceBetween: 14,
+                        },
+                        1024: {
+                          slidesPerView: 5,
+                          slidesPerGroup: 5,
+                          spaceBetween: 20,
+                        },
                       }}
                     >
                       {(show.recommendations.results.length > 0
@@ -242,7 +295,7 @@ export default function DrawerMetadata({
                             router.push(`/${reco.media_type}/${reco.id}`)
                           }
                           key={reco.id}
-                          className="reco overflow-hidden rounded-sm cursor-pointer"
+                          className=" overflow-hidden rounded-sm cursor-pointer"
                         >
                           <div>
                             <img

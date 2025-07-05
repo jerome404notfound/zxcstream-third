@@ -17,21 +17,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 let showlist = [
+  { id: "593643", media_type: "movie" },
   { id: "93405", media_type: "tv" },
+  { id: "575604", media_type: "movie" },
+  { id: "60625", media_type: "tv" },
+  { id: "26466", media_type: "movie" },
+  { id: "219246", media_type: "tv" },
   { id: "1233413", media_type: "movie" },
-  { id: "1234821", media_type: "movie" },
-  { id: "541671", media_type: "movie" },
-  { id: "94605", media_type: "tv" },
-  { id: "1396", media_type: "tv" },
-  { id: "823219", media_type: "movie" },
-  { id: "1064213", media_type: "movie" },
-  { id: "552524", media_type: "movie" },
-  { id: "95557", media_type: "tv" },
   { id: "235930", media_type: "tv" },
-  { id: "86831", media_type: "tv" },
-  { id: "100088", media_type: "tv" },
-  { id: "194583", media_type: "tv" },
+  { id: "986056", media_type: "movie" },
   { id: "241554", media_type: "tv" },
+  { id: "1153714", media_type: "movie" },
+  { id: "536554", media_type: "movie" },
+  { id: "1151031", media_type: "movie" },
 ];
 
 showlist = showlist.sort(() => Math.random() - 0.5);
@@ -197,6 +195,7 @@ export default function SwiperBackdrops() {
                   src={`https://image.tmdb.org/t/p/w500/${meow.poster_path}`}
                   alt={meow.name || meow.title || "BACKDROP"}
                   width={170}
+                  unoptimized={true}
                   height={245}
                 />
               </SwiperSlide>

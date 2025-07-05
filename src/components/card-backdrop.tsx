@@ -30,6 +30,7 @@ export default function BackdropCard({ movie }: { movie: SaveProgressType }) {
           src={posterUrl || fallbackUrl}
           alt={movie.title || "poster"}
           width={300}
+          unoptimized={true}
           height={417}
           className=" object-cover"
         />

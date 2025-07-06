@@ -158,7 +158,9 @@ export default function DrawerMetadata({
                           navigator
                             .share({
                               title: show?.title || show?.name,
-                              text: "Check this out on ZXCStream!",
+                              text: `Watch "${
+                                show?.title || show?.name
+                              }" now on ZXC[STREAM]!`,
                               url: window.location.href,
                             })
                             .then(() => console.log("Shared successfully"))

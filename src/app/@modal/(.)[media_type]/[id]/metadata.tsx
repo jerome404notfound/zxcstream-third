@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { MonitorPlay, MonitorX, Play, PlayCircle, Star } from "lucide-react";
+import { ExternalLink, MonitorPlay, MonitorX, Play, PlayCircle, Share2, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import GetMovieData from "@/lib/getMovieData";
@@ -144,6 +144,30 @@ export default function DrawerMetadata({
                         Play Now
                       </Button>
                     </Link>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator
+                            .share({
+                              title: show?.title || show?.name,
+                              text: "Check this out on ZXCStream!",
+                              url: window.location.href,
+                            })
+                            .then(() => console.log("Shared successfully"))
+                            .catch((error) =>
+                              console.error("Sharing failed", error)
+                            );
+                        } else {
+                          toast("Sharing not supported", {
+                            description:
+                              "Try using Chrome on Android or Safari on iOS.",
+                          });
+                        }
+                      }}
+                    >
+                      <Share2 />
+                    </Button>
 
                     {trailer ? (
                       <Button onClick={() => setTrailer(false)}>

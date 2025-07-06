@@ -10,7 +10,14 @@ import { toast } from "sonner";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { ExternalLink, MonitorPlay, MonitorX, Play, PlayCircle, Share2, Star } from "lucide-react";
+import {
+  MonitorPlay,
+  MonitorX,
+  Play,
+  PlayCircle,
+  Share2,
+  Star,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import GetMovieData from "@/lib/getMovieData";

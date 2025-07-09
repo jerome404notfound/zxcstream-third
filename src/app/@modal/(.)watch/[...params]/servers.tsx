@@ -4,6 +4,17 @@ import { Tally1, Tally2, Tally3, Tally4, Tally5 } from "lucide-react";
 export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
+      name: "ZXCSTREAM",
+      sublabel: "Main Server (No Ads)",
+      isRecommended: true,
+      sandboxSupport: false,
+      description: "Main Server (No Ads)",
+      movieLink: `https://zxcstream-api.vercel.app/player/movie/${id}`,
+      tvLink: `https://zxcstream-api.vercel.app/player/tv/${id}/${season}/${episode}`,
+      icon: <Tally5 />,
+      value: "mainserver",
+    },
+    {
       name: "Server 1",
       sublabel: "Doesn't support sandbox",
       isRecommended: true,
@@ -62,18 +73,6 @@ export function getServers(id: string, season?: string, episode?: string) {
         "Reliable server with a vast collection and fast streaming. Ads may be present.",
       movieLink: `https://vidsrc.xyz/embed/movie/${id}`,
       tvLink: `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`,
-      icon: <Tally5 />,
-      value: "server2",
-    },
-    {
-      name: "ZXCSTREAM Server",
-      sublabel: "Doesn't support sandbox",
-      isRecommended: true,
-      sandboxSupport: false,
-      description:
-        "Reliable server with a vast collection and fast streaming. Ads may be present.",
-      movieLink: `https://zxcstream-api.vercel.app/player/movie/${id}`,
-      tvLink: `https://zxcstream-api.vercel.app/player/tv/${id}/${season}/${episode}`,
       icon: <Tally5 />,
       value: "server2",
     },

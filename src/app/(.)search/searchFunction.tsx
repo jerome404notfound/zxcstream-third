@@ -33,11 +33,11 @@ export default function SimpleStaggerSearch() {
 
           const movieEndpoint = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
             query
-          )}&page=${page}&api_key=${apiKey}&include_adult=false&region=JP`;
+          )}&page=${page}&api_key=${apiKey}&include_adult=false`;
 
           const tvEndpoint = `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(
             query
-          )}&page=${page}&api_key=${apiKey}&include_adult=false&region=JP`;
+          )}&page=${page}&api_key=${apiKey}&include_adult=false`;
 
           const [resMovie, resTv] = await Promise.all([
             fetch(movieEndpoint),
@@ -66,7 +66,7 @@ export default function SimpleStaggerSearch() {
 
           const filter = combined.filter(
             (meow: MovieType) =>
-              meow.poster_path && meow.vote_average > 3 && meow.vote_count > 100
+              meow.poster_path && meow.vote_average > 3 
           );
 
           if (page === 1) {

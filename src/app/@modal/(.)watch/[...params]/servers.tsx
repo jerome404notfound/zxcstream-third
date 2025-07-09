@@ -65,6 +65,18 @@ export function getServers(id: string, season?: string, episode?: string) {
       icon: <Tally5 />,
       value: "server2",
     },
+    {
+      name: "ZXCSTREAM Server",
+      sublabel: "Doesn't support sandbox",
+      isRecommended: true,
+      sandboxSupport: false,
+      description:
+        "Reliable server with a vast collection and fast streaming. Ads may be present.",
+      movieLink: `https://zxcstream-api.vercel.app/player/movie/${id}`,
+      tvLink: `https://zxcstream-api.vercel.app/player/tv/${id}/${season}/${episode}`,
+      icon: <Tally5 />,
+      value: "server2",
+    },
   ];
 }
 

@@ -9,11 +9,12 @@ export function getServers(id: string, season?: string, episode?: string) {
       isRecommended: true,
       sandboxSupport: false,
       description: "Main Server (No Ads)",
-      movieLink: `https://zxcstream-api-production.up.railway.app/player/movie/${id}`,
-      tvLink: `https://zxcstream-api-production.up.railway.app/player/tv/${id}/${season}/${episode}`,
+      movieLink: ` https://api-movie-tau.vercel.app/player/movie/${id}`,
+      tvLink: ` https://api-movie-tau.vercel.app/player/tv/${id}/${season}/${episode}`,
       icon: <Tally5 />,
       value: "mainserver",
     },
+
     {
       name: "Server 1",
       sublabel: "Doesn't support sandbox",

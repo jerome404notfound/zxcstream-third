@@ -1,4 +1,4 @@
-const CACHE_NAME = "zxc-stream-v2.19";
+const CACHE_NAME = "zxc-stream-v2.20";
 const urlsToCache = [
   "/",
   "/manifest.json",

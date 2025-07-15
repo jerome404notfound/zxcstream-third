@@ -16,8 +16,10 @@ export function useSimpleAdLink(cooldownMs = 40000) {
       }
     }
 
-    const adLinks = ""
-      //mine "https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd";
+    const adLinks =
+      "https://www.profitableratecpm.com/hd33crmf?key=b98802e643e417cf197f226400cbb36e";
+    //mine "https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd";
+
     window.open(adLinks, "_blank");
     localStorage.setItem("lastAdTime", now.toString());
     return true;

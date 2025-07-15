@@ -34,7 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics Scripts */}
-        <Script
+        {/* <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-BH33L5GK2T"
           strategy="afterInteractive"
@@ -50,7 +50,26 @@ export default function RootLayout({
               gtag('config', 'G-BH33L5GK2T');
             `,
           }}
+        /> */}
+
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZYNKYR6V87"
+          strategy="afterInteractive"
         />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-ZYNKYR6V87');
+            `,
+          }}
+        />
+
         <link
           rel="icon"
           type="image/png"

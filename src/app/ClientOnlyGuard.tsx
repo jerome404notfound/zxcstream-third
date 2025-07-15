@@ -20,7 +20,10 @@ export default function ClientOnlyGuard({
         hostname === "zxcstream" ||
         hostname === "zxcstream.pro" ||
         hostname.endsWith(".zxcstream.pro") ||
-        hostname === "zxcstream-ivory.vercel.app"; // <-- Add this line
+        hostname === "zxcstream.online" ||
+        hostname.endsWith(".zxcstream.online") ||
+        hostname === "zxcstream-ivory.vercel.app" ||
+        hostname === "zxcstream-p-first.vercel.app";
 
       if (isLocal || isProd) {
       } else {

@@ -16,8 +16,8 @@ export function useSimpleAdLink(cooldownMs = 40000) {
       }
     }
 
-    const adLinks =
-      "https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd";
+    const adLinks = ""
+      //mine "https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd";
     window.open(adLinks, "_blank");
     localStorage.setItem("lastAdTime", now.toString());
     return true;

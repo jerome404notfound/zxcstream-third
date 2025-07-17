@@ -34,7 +34,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics Scripts */}
-        {/* <Script
+        {/*MINE */}
+        <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-BH33L5GK2T"
           strategy="afterInteractive"
@@ -50,9 +51,9 @@ export default function RootLayout({
               gtag('config', 'G-BH33L5GK2T');
             `,
           }}
-        /> */}
-
-        <Script
+        />
+        {/*PONCHANG */}
+        {/* <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-ZYNKYR6V87"
           strategy="afterInteractive"
@@ -68,7 +69,7 @@ export default function RootLayout({
               gtag('config', 'G-ZYNKYR6V87');
             `,
           }}
-        />
+        /> */}
 
         <link
           rel="icon"
@@ -94,7 +95,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="fixed z-[-1] inset-0 bg-background bg-[radial-gradient(ellipse_at_top,_rgba(30,64,175,0.3)_0%,_transparent_70%)] p-10"></div>
+          {/* <div className="fixed z-[-1] inset-0 bg-background bg-[radial-gradient(ellipse_at_top,_rgba(30,64,175,0.3)_0%,_transparent_70%)] p-10"></div> */}
           <ClientOnlyGuard>
             <NavBar />
             {children}

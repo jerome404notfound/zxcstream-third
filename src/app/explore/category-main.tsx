@@ -50,8 +50,8 @@ export default function ReusableCategory({
 }: CategoryProps) {
   const SkeletonLoading = () => {
     return (
-      <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 right-[unset] lg:right-25  z-20 text-white zxc flex justify-center">
-        <div className=" flex-col items-end gap-1 hidden lg:flex w-full">
+      <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 left-[unset] lg:left-25  z-20 text-white zxc flex justify-center">
+        <div className=" flex-col items-start gap-1 hidden lg:flex w-full">
           <Skeleton className="h-5 w-40 lg:h-8 lg:w-70 bg-zinc-500" />
           <Skeleton className="h-8 w-54 lg:h-15 lg:w-full  bg-zinc-500" />
           <Skeleton className="w-[90%] h-4 lg:h-5 lg:w-full  bg-zinc-500" />
@@ -70,15 +70,35 @@ export default function ReusableCategory({
 
   const HeroComponent = () => {
     return movies?.slice(0, 1).map((meow) => (
-      <div key={meow.id} className=" overflow-hidden bg-amber-300">
-        <div className="absolute w-[calc(100%-40px)] lg:w-1/2 bottom-15 right-5 lg:right-25 z-10 text-white   flex-col items-end hidden lg:flex">
-          <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px] font-bold zxczxc text-right mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-lg drop-shadow-black/50">
+      <div key={meow.id} className=" overflow-hidden bg-amber-400">
+        <div className="absolute w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col hidden lg:flex">
+          <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
             {(meow.title || meow.name)?.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="text-yellow-500">
               {(meow.title || meow.name)?.split(" ").pop()}
             </span>
           </span>
-          <p className="text-right text-xs lg:text-base line-clamp-3 zxc">
+          <div className="flex gap-3">
+            <Badge className="">
+              {meow.media_type === "movie" ? "Movie" : "TV"}
+            </Badge>
+            <Badge className="">
+              {meow.media_type === "movie"
+                ? meow.release_date?.slice(0, 4) || "N/A"
+                : meow.first_air_date?.slice(0, 4) || "N/A"}
+            </Badge>
+            <Badge className="">
+              {meow.media_type === "movie"
+                ? meow.release_dates?.results
+                    ?.find((r) => r.iso_3166_1 === "US")
+                    ?.release_dates?.find((r) => r.type === 3)?.certification ||
+                  "NR"
+                : meow.content_ratings?.results?.find(
+                    (r) => r.iso_3166_1 === "US"
+                  )?.rating || "NR"}
+            </Badge>
+          </div>
+          <p className=" text-xs lg:text-base line-clamp-3 zxc mt-3">
             {meow.overview || "No description available."}
           </p>
           <div className="mt-5 space-x-2">
@@ -89,7 +109,7 @@ export default function ReusableCategory({
               prefetch={true}
               scroll={false}
             >
-              <Button variant="secondary">
+              <Button >
                 <Play />
                 Play Now
               </Button>

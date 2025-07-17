@@ -12,6 +12,7 @@ import {
   Flame,
   Star,
   Clock,
+  InfoIcon,
 } from "lucide-react";
 import type React from "react";
 
@@ -132,7 +133,19 @@ export default function NavBar() {
   };
 
   return (
-    <>
+    <div>
+      {/* <div className=" border-b-1 bg-background px-4 py-3 ">
+        <p className="lg:text-sm text-xs text-center">
+          <InfoIcon
+            className="me-1 -mt-0.5 inline-flex opacity-60"
+            size={16}
+            aria-hidden="true"
+          />
+          We will undergo maintenance at{" "}
+          <strong>2:00 AM (GMT+8)</strong> for about an hour. Thanks for your
+          patience!
+        </p>
+      </div> */}
       <header className="absolute z-20 flex   w-full  justify-center items-start lg:py-5 py-3">
         <div className=" lg:absolute lg:left-20 h-8.5 ">
           <img
@@ -427,6 +440,6 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

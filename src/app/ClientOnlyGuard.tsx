@@ -14,7 +14,7 @@ export default function ClientOnlyGuard({
     const timer = setTimeout(() => {
       const hostname = window.location.hostname;
 
-      const isLocal = hostname === "localhost" || hostname === "192.168.1.11";
+      const isLocal = hostname === "localhost" || hostname === "192.168.1.5";
 
       const isProd =
         hostname === "zxcstream" ||

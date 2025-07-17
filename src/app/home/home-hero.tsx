@@ -1,7 +1,7 @@
 "use client";
 import { SwiperSlide, Swiper } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { Navigation, Pagination, Controller, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Controller } from "swiper/modules";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,17 +18,15 @@ import { Badge } from "@/components/ui/badge";
 
 let showlist = [
   { id: "593643", media_type: "movie" },
+  { id: "1429744", media_type: "movie" },
   { id: "93405", media_type: "tv" },
   { id: "575604", media_type: "movie" },
   { id: "60625", media_type: "tv" },
-  { id: "26466", media_type: "movie" },
   { id: "219246", media_type: "tv" },
   { id: "1233413", media_type: "movie" },
   { id: "235930", media_type: "tv" },
   { id: "986056", media_type: "movie" },
-  { id: "241554", media_type: "tv" },
   { id: "1153714", media_type: "movie" },
-  { id: "536554", media_type: "movie" },
   { id: "1151031", media_type: "movie" },
 ];
 
@@ -56,8 +54,8 @@ export default function SwiperBackdrops() {
       >
         {loading ? (
           <SwiperSlide className="swiper-slide relative overflow-hidden">
-            <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 right-[unset] lg:right-25  z-10 text-white zxc flex justify-center">
-              <div className=" flex-col items-end gap-1 hidden lg:flex w-full">
+            <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 right-[unset] lg:left-20  z-10 text-white zxc flex justify-center">
+              <div className=" flex-col items-start gap-1 hidden lg:flex w-full">
                 <Skeleton className="h-5 w-40 lg:h-8 lg:w-70 bg-zinc-500" />
                 <Skeleton className="h-8 w-54 lg:h-15 lg:w-full  bg-zinc-500" />
                 <Skeleton className="w-[90%] h-4 lg:h-5 lg:w-full  bg-zinc-500" />
@@ -78,26 +76,46 @@ export default function SwiperBackdrops() {
               key={meow.id}
               className="swiper-slide relative overflow-hidden"
             >
-              <div className="absolute w-[calc(100%-40px)] lg:w-1/2 bottom-15 right-5 lg:right-25 z-10 text-white   flex-col items-end hidden lg:flex">
-                <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px] font-bold zxczxc text-right mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-lg drop-shadow-black/50">
+              <div className="absolute  w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col  hidden lg:flex">
+                <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
                   {(meow.title || meow.name)?.split(" ").slice(0, -1).join(" ")}{" "}
-                  <span className="text-yellow-500">
+                  <span className="text-amber-500">
                     {(meow.title || meow.name)?.split(" ").pop()}
                   </span>
                 </span>
-                <p className="text-right text-xs lg:text-base line-clamp-3 zxc">
+                <div className="flex gap-3">
+                  <Badge className="">
+                    {meow.media_type === "movie" ? "Movie" : "TV"}
+                  </Badge>
+                  <Badge className="">
+                    {meow.media_type === "movie"
+                      ? meow.release_date?.slice(0, 4) || "N/A"
+                      : meow.first_air_date?.slice(0, 4) || "N/A"}
+                  </Badge>
+                  <Badge className="">
+                    {meow.media_type === "movie"
+                      ? meow.release_dates?.results
+                          ?.find((r) => r.iso_3166_1 === "US")
+                          ?.release_dates?.find((r) => r.type === 3)
+                          ?.certification || "NR"
+                      : meow.content_ratings?.results?.find(
+                          (r) => r.iso_3166_1 === "US"
+                        )?.rating || "NR"}
+                  </Badge>
+                </div>
+                <p className=" text-xs lg:text-base line-clamp-3 zxc mt-3">
                   {/* Replace tagline with overview */}
                   {meow.overview || "No description available."}
                 </p>
                 <div className="mt-5 space-x-2">
                   <Link
-                    href={`watch/${meow.media_type}/${meow.id}${
+                    href={`/watch/${meow.media_type}/${meow.id}${
                       meow.media_type === "tv" ? "/1/1" : ""
                     }`}
                     prefetch={true}
                     scroll={false}
                   >
-                    <Button variant="secondary">
+                    <Button>
                       <Play />
                       Play Now
                     </Button>
@@ -167,17 +185,14 @@ export default function SwiperBackdrops() {
       </Swiper>
       <div className="absolute bottom-20 lg:hidden z-10  w-full overflow-hidden  pointer-events-none">
         <Swiper
-          modules={[Controller, EffectCards, Autoplay]}
+          modules={[Controller, EffectCards]}
           controller={{ control: mainSwiper }}
           onSwiper={setThumbSwiper}
           effect={"cards"}
           slidesPerView="auto"
           centeredSlides={true}
           spaceBetween={30}
-          autoplay={{
-            delay: 5000, // ✅ 3 seconds
-            disableOnInteraction: true, // keeps autoplay after swipe
-          }}
+     
           className="h-full w-full"
         >
           {loading ? (

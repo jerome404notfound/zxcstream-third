@@ -12,7 +12,6 @@ import {
   Flame,
   Star,
   Clock,
-  InfoIcon,
 } from "lucide-react";
 import type React from "react";
 

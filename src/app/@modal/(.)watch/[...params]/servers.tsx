@@ -5,6 +5,18 @@ export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
       name: "Server 1",
+      sublabel: "Sandbox support",
+      isRecommended: true,
+      sandboxSupport: true,
+      description:
+        "Fast performance with a wide selection of movies and TV shows. 4k support",
+      movieLink: `https://player.videasy.net/movie/${id}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
+      tvLink: `https://player.videasy.net/tv/${id}/${season}/${episode}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
+      icon: <Tally1 />,
+      value: "server1",
+    },
+    {
+      name: "Server 2",
       isRecommended: false,
       sandboxSupport: true,
       sublabel: "Sandbox support",
@@ -12,20 +24,33 @@ export function getServers(id: string, season?: string, episode?: string) {
         "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
       movieLink: `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=true`,
       tvLink: `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?autoPlay=true`,
+      icon: <Tally2 />,
+      value: "server2",
+    },
+
+    {
+      name: "Server 3",
+      sublabel: "Doesn't support sandbox",
+      isRecommended: false,
+      sandboxSupport: false,
+      description:
+        "Basic performance and reliability. May contain ads and limited features.",
+      movieLink: `https://vidsrc.su/embed/movie/${id}?serverselector=false`,
+      tvLink: `https://vidsrc.su/embed/tv/${id}/${season}/${episode}?serverselector=false`,
       icon: <Tally3 />,
-      value: "server1",
+      value: "server3",
     },
     {
-      name: "Server 2",
+      name: "Server 4",
       sublabel: "Doesn't support sandbox",
       isRecommended: true,
       sandboxSupport: false,
       description:
-        "Fast performance with a wide selection of movies and TV shows. Contains ads due to no sandbox support.",
-      movieLink: `https://vidfast.pro/movie/${id}?autoPlay=true&theme=FF0000`,
-      tvLink: `https://vidfast.pro/tv/${id}/${season}/${episode}?autoPlay=true&theme=FF0000`,
-      icon: <Tally1 />,
-      value: "server5",
+        "Reliable server with a vast collection and fast streaming. Ads may be present.",
+      movieLink: `https://vidsrc.xyz/embed/movie/${id}`,
+      tvLink: `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`,
+      icon: <Tally4 />,
+      value: "server4",
     },
     {
       name: "ZXCSTREAM",
@@ -38,45 +63,33 @@ export function getServers(id: string, season?: string, episode?: string) {
       icon: <Tally5 />,
       value: "mainserver",
     },
-
-    {
-      name: "Server 3",
-      sublabel: "Doesn't support sandbox",
-      isRecommended: false,
-      sandboxSupport: false,
-      description:
-        "High-speed streaming with a large movie library. Ads may be present due to lack of sandbox support.",
-      movieLink: `https://vidlink.pro/movie/${id}?primaryColor=0008ff&secondaryColor=000000&iconColor=ffffff&icons=default&player=jw&title=true&poster=false&autoplay=true&nextbutton=true`,
-      tvLink: `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=0008ff&secondaryColor=000000&iconColor=ffffff&icons=default&player=jw&title=true&poster=false&autoplay=true&nextbutton=true`,
-      icon: <Tally2 />,
-      value: "server3",
-    },
-
-    {
-      name: "Server 4",
-      sublabel: "Doesn't support sandbox",
-      isRecommended: false,
-      sandboxSupport: false,
-      description:
-        "Basic performance and reliability. May contain ads and limited features.",
-      movieLink: `https://vidsrc.su/embed/movie/${id}?serverselector=false`,
-      tvLink: `https://vidsrc.su/embed/tv/${id}/${season}/${episode}?serverselector=false`,
-      icon: <Tally4 />,
-      value: "server4",
-    },
-    {
-      name: "Server 5",
-      sublabel: "Doesn't support sandbox",
-      isRecommended: true,
-      sandboxSupport: false,
-      description:
-        "Reliable server with a vast collection and fast streaming. Ads may be present.",
-      movieLink: `https://vidsrc.xyz/embed/movie/${id}`,
-      tvLink: `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`,
-      icon: <Tally5 />,
-      value: "server2",
-    },
   ];
+
+  // {
+  //   name: "Server 2",
+  //   sublabel: "Doesn't support sandbox",
+  //   isRecommended: true,
+  //   sandboxSupport: false,
+  //   description:
+  //     "Fast performance with a wide selection of movies and TV shows. Contains ads due to no sandbox support.",
+  //   movieLink: `https://vidfast.pro/movie/${id}?autoPlay=true&theme=FF0000`,
+  //   tvLink: `https://vidfast.pro/tv/${id}/${season}/${episode}?autoPlay=true&theme=FF0000`,
+  //   icon: <Tally1 />,
+  //   value: "server5",
+  // },
+
+  // {
+  //   name: "Server 3",
+  //   sublabel: "Doesn't support sandbox",
+  //   isRecommended: false,
+  //   sandboxSupport: false,
+  //   description:
+  //     "High-speed streaming with a large movie library. Ads may be present due to lack of sandbox support.",
+  //   movieLink: `https://vidlink.pro/movie/${id}?primaryColor=0008ff&secondaryColor=000000&iconColor=ffffff&icons=default&player=jw&title=true&poster=false&autoplay=true&nextbutton=true`,
+  //   tvLink: `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=0008ff&secondaryColor=000000&iconColor=ffffff&icons=default&player=jw&title=true&poster=false&autoplay=true&nextbutton=true`,
+  //   icon: <Tally2 />,
+  //   value: "server3",
+  // },
 }
 
 // "use client";

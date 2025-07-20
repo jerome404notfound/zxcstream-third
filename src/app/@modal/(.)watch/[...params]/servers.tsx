@@ -5,18 +5,6 @@ export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
       name: "Server 1",
-      sublabel: "Sandbox support",
-      isRecommended: true,
-      sandboxSupport: true,
-      description:
-        "Fast performance with a wide selection of movies and TV shows. 4k support",
-      movieLink: `https://player.videasy.net/movie/${id}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
-      tvLink: `https://player.videasy.net/tv/${id}/${season}/${episode}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
-      icon: <Tally1 />,
-      value: "server1",
-    },
-    {
-      name: "Server 2",
       isRecommended: false,
       sandboxSupport: true,
       sublabel: "Sandbox support",
@@ -24,6 +12,18 @@ export function getServers(id: string, season?: string, episode?: string) {
         "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
       movieLink: `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=true`,
       tvLink: `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?autoPlay=true`,
+      icon: <Tally1 />,
+      value: "server1",
+    },
+    {
+      name: "Server 2",
+      sublabel: "Sandbox support",
+      isRecommended: true,
+      sandboxSupport: true,
+      description:
+        "Fast performance with a wide selection of movies and TV shows. 4k support",
+      movieLink: `https://player.videasy.net/movie/${id}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
+      tvLink: `https://player.videasy.net/tv/${id}/${season}/${episode}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
       icon: <Tally2 />,
       value: "server2",
     },

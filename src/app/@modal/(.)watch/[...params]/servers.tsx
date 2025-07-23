@@ -10,13 +10,25 @@ export function getServers(id: string, season?: string, episode?: string) {
       sublabel: "Sandbox support",
       description:
         "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
+      movieLink: `https://zxczxc-pi.vercel.app/player/movie/${id}`,
+      tvLink: `https://zxczxc-pi.vercel.app/player/tv/${id}/${season}/${episode}`,
+      icon: <Tally1 />,
+      value: "server1",
+    },
+    {
+      name: "Server 2",
+      isRecommended: false,
+      sandboxSupport: true,
+      sublabel: "Sandbox support",
+      description:
+        "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
       movieLink: `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=true`,
       tvLink: `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?autoPlay=true`,
       icon: <Tally1 />,
       value: "server1",
     },
     {
-      name: "Server 2",
+      name: "Server 3",
       sublabel: "Sandbox support",
       isRecommended: true,
       sandboxSupport: true,
@@ -28,18 +40,6 @@ export function getServers(id: string, season?: string, episode?: string) {
       value: "server2",
     },
 
-    {
-      name: "Server 3",
-      sublabel: "Doesn't support sandbox",
-      isRecommended: false,
-      sandboxSupport: false,
-      description:
-        "Basic performance and reliability. May contain ads and limited features.",
-      movieLink: `https://vidsrc.su/embed/movie/${id}?serverselector=false`,
-      tvLink: `https://vidsrc.su/embed/tv/${id}/${season}/${episode}?serverselector=false`,
-      icon: <Tally3 />,
-      value: "server3",
-    },
     {
       name: "Server 4",
       sublabel: "Doesn't support sandbox",

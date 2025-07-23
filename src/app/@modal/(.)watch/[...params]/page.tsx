@@ -101,7 +101,7 @@ export default function WatchPage() {
   }, [id, media_type, show, season, episode, selected]);
 
   useEffect(() => {
-    if (selected !== "Server 1") return;
+    if (selected !== "Server 1" && selected !== "Server 2") return;
     //  &&
     //       selected !== "Server 2" &&
     //       selected !== "Server 3"

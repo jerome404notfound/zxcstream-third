@@ -52,6 +52,11 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"
+          strategy="beforeInteractive"
+          disable-devtool-auto=""
+        />
         {/*PONCHANG */}
         {/* <Script
           async

@@ -1,5 +1,5 @@
 // lib/servers.ts
-import { Tally1, Tally2, Tally3, Tally4, Tally5 } from "lucide-react";
+import { Tally1, Tally2, Tally4, Tally5 } from "lucide-react";
 
 export function getServers(id: string, season?: string, episode?: string) {
   return [

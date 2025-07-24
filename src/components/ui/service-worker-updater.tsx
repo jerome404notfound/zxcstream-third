@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { RefreshCw } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+
 
 export function ServiceWorkerUpdater() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
@@ -82,20 +81,26 @@ export function ServiceWorkerUpdater() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <Card className="max-w-sm border-blue-200 bg-blue-50">
-        <CardContent className="p-4">
-          <Alert className="border-blue-200 bg-blue-50 mb-3">
-            <AlertDescription className="text-blue-800 text-sm">
-              A new version is available!
-            </AlertDescription>
-          </Alert>
-          <Button onClick={handleUpdate} className="w-full" size="sm">
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Update Now
+    <div className="fixed bottom-4 right-4 z-50 bg-background  max-w-[400px] rounded-md border p-4 shadow-lg">
+      <div className="flex gap-3">
+        <Button variant="outline">
+          <RefreshCw className="opacity-60" size={16} />
+        </Button>
+
+        <div className="flex grow gap-2 justify-center items-center">
+          <div className="space-y-1">
+            <p className="text-sm font-medium">A new version is available!</p>
+            <p className="text-muted-foreground text-sm">
+              This update contains several bug fixes and performance
+              improvements.
+            </p>
+          </div>
+
+          <Button onClick={handleUpdate} size="sm">
+            Install
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

@@ -106,7 +106,7 @@ export default function RootLayout({
             <NavBar />
             {children}
             {modal}
-            <ServiceWorkerUpdater />
+              <ServiceWorkerUpdater />
             <Footer />
             <Toaster position="top-right" expand={false} duration={3000} />
           </ClientOnlyGuard>

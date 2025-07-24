@@ -47,7 +47,7 @@ export default function ReusableBackdropSwiper({
                 key={value}
                 onClick={() => setMedia(value)}
                 className={`bg-transparent border-b border-white/50 rounded-[unset] text-foreground ${
-                  media === value ? `border-amber-400` : ""
+                  media === value ? `border-red-700` : ""
                 }`}
               >
                 {icon}

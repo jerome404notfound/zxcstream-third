@@ -30,7 +30,7 @@
   height: 1px;
 }
 .swiper-pagination-progressbar-fill {
-  background-color: rgb(0, 21, 255) !important;
+  background-color: rgb(255, 0, 0) !important;
 }
 
 .mask-gradient {
@@ -54,7 +54,7 @@
   /* transform: translateY(-50%);
   top: 50%; */
   background: rgba(0, 0, 0, 0.533);
-  border: 1px solid rgba(0, 21, 255, 0.142);
+  border: 1px solid rgba(255, 0, 0, 0.142);
 }
 .swiper-button-prev::after,
 .swiper-button-next::after {
@@ -95,7 +95,7 @@
   border-radius: 10px !important;
 }
 .swiper-pagination-bullet-active {
-  background-color: rgb(28, 48, 204) !important;
+  background-color: rgb(255, 0, 0) !important;
 }
 
 .swiper-slide.swiper-slide-active .landing-data {
@@ -128,13 +128,13 @@ body::-webkit-scrollbar,
   z-index: -1;
   letter-spacing: -30px;
   transform: translateX(-80%);
-  -webkit-text-stroke: 1.5px rgba(30, 64, 175);
+  -webkit-text-stroke: 1.5px rgb(255, 0, 0);
   -webkit-text-fill-color: transparent;
   transition: 0.3s;
   filter: drop-shadow(0 0 2px #00011480);
 }
 .ten:hover .numbering {
-  -webkit-text-fill-color: rgba(30, 64, 175);
+  -webkit-text-fill-color: rgb(152, 0, 0);
   transform: translateX(-100%) scale(1.05);
 }
 .ten {

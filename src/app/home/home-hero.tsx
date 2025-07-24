@@ -17,17 +17,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 let showlist = [
-  { id: "593643", media_type: "movie" },
-  { id: "1429744", media_type: "movie" },
-  { id: "93405", media_type: "tv" },
-  { id: "575604", media_type: "movie" },
-  { id: "60625", media_type: "tv" },
-  { id: "219246", media_type: "tv" },
-  { id: "1233413", media_type: "movie" },
-  { id: "235930", media_type: "tv" },
-  { id: "986056", media_type: "movie" },
-  { id: "1153714", media_type: "movie" },
-  { id: "1151031", media_type: "movie" },
+  { id: "886083", media_type: "movie" },
+  { id: "945961", media_type: "movie" },
+  { id: "297608", media_type: "movie" },
+  { id: "615453", media_type: "movie" },
+  { id: "66732", media_type: "tv" },
+  { id: "1214509", media_type: "movie" },
+  // { id: "60625", media_type: "tv" },
+  // { id: "219246", media_type: "tv" },
+  { id: "508947", media_type: "movie" },
+  // { id: "235930", media_type: "tv" },
+  { id: "1425045", media_type: "movie" },
+  // { id: "1153714", media_type: "movie" },
+  // { id: "1151031", media_type: "movie" },
 ];
 
 showlist = showlist.sort(() => Math.random() - 0.5);
@@ -79,20 +81,20 @@ export default function SwiperBackdrops() {
               <div className="absolute  w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col  hidden lg:flex">
                 <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
                   {(meow.title || meow.name)?.split(" ").slice(0, -1).join(" ")}{" "}
-                  <span className="text-red-500">
+                  <span className="text-red-800">
                     {(meow.title || meow.name)?.split(" ").pop()}
                   </span>
                 </span>
                 <div className="flex gap-3">
-                  <Badge className="">
+                  <Badge className="px-3 py-1 text-sm" variant="outline">
                     {meow.media_type === "movie" ? "Movie" : "TV"}
                   </Badge>
-                  <Badge className="">
+                  <Badge className="px-3 py-1 text-sm" variant="outline">
                     {meow.media_type === "movie"
                       ? meow.release_date?.slice(0, 4) || "N/A"
                       : meow.first_air_date?.slice(0, 4) || "N/A"}
                   </Badge>
-                  <Badge className="">
+                  <Badge className="px-3 py-1 text-sm" variant="outline">
                     {meow.media_type === "movie"
                       ? meow.release_dates?.results
                           ?.find((r) => r.iso_3166_1 === "US")
@@ -103,7 +105,7 @@ export default function SwiperBackdrops() {
                         )?.rating || "NR"}
                   </Badge>
                 </div>
-                <p className=" text-xs lg:text-base line-clamp-3 zxc mt-3">
+                <p className=" text-xs lg:text-base line-clamp-3  mt-3">
                   {/* Replace tagline with overview */}
                   {meow.overview || "No description available."}
                 </p>
@@ -115,7 +117,7 @@ export default function SwiperBackdrops() {
                     prefetch={true}
                     scroll={false}
                   >
-                    <Button>
+                    <Button className="bg-zinc-950/80 hover:bg-zinc-900 border-red-700 border-1 text-white">
                       <Play />
                       Play Now
                     </Button>

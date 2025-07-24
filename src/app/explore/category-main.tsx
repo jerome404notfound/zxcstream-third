@@ -70,11 +70,11 @@ export default function ReusableCategory({
 
   const HeroComponent = () => {
     return movies?.slice(0, 1).map((meow) => (
-      <div key={meow.id} className=" overflow-hidden bg-amber-400">
+      <div key={meow.id} className=" overflow-hidden bg-red-800">
         <div className="absolute w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col hidden lg:flex">
           <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
             {(meow.title || meow.name)?.split(" ").slice(0, -1).join(" ")}{" "}
-            <span className="text-yellow-500">
+            <span className="text-red-800">
               {(meow.title || meow.name)?.split(" ").pop()}
             </span>
           </span>
@@ -109,7 +109,7 @@ export default function ReusableCategory({
               prefetch={true}
               scroll={false}
             >
-              <Button >
+              <Button>
                 <Play />
                 Play Now
               </Button>

@@ -23,7 +23,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import logo from "@/assets/zxzx.png";
+import logo from "@/assets/zxczxc.svg";
 import { useRouter, usePathname } from "next/navigation";
 import { PWAInstallButton } from "./pwa-install-button";
 import Link from "next/link";
@@ -156,7 +156,7 @@ export default function NavBar() {
 
         <div>
           <nav className="hidden lg:flex items-center">
-            <Link href="/" className="px-5 hover:bg-blue-800" prefetch={true}>
+            <Link href="/" className="px-5 hover:bg-red-800" prefetch={true}>
               <HomeIcon size={16} />
             </Link>
 

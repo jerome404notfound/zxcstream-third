@@ -206,22 +206,7 @@ export default function WatchPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="w-full h-full overflow-auto flex flex-col bg-background"
           >
-            <div className="w-full flex justify-between p-2">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  saveCurrentProgress();
-                  setTimeout(() => router.back(), 100);
-                }}
-              >
-                <ArrowLeft strokeWidth={3} />
-                Back
-              </Button>
-              <Button variant="outline" onClick={() => setOpen(true)}>
-                Switch Server <ArrowUpDown />
-              </Button>
-            </div>
-            <div className="relative flex-1">
+            <div className="relative flex-1 flex items-center justify-center">
               {/* {isLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center gap-4">
@@ -230,6 +215,27 @@ export default function WatchPage() {
                   </div>
                 </div>
               )} */}
+
+              <Button
+                size="lg"
+                className="absolute left-3 top-3 bg-black font-semibold cursor-pointer border-1"
+                variant="secondary"
+                onClick={() => {
+                  saveCurrentProgress();
+                  setTimeout(() => router.back(), 100);
+                }}
+              >
+                <ArrowLeft strokeWidth={3} /> Back
+              </Button>
+
+              <Button
+                size="lg"
+                className="absolute right-3 top-3 bg-black  font-semibold  cursor-pointer border-1"
+                variant="secondary"
+                onClick={() => setOpen(true)}
+              >
+                Server <ArrowUpDown />
+              </Button>
 
               {src && (
                 <iframe
@@ -247,7 +253,7 @@ export default function WatchPage() {
               )}
             </div>
 
-            <div className="w-full flex justify-between items-center px-2 py-3 text-xs bg-black border truncate gap-5">
+            {/* <div className="w-full flex justify-between items-center px-2 py-3 text-xs bg-black border truncate gap-5">
               <p className="flex-1 text-left">{selected}</p>
               <p className="flex-1 text-center">
                 {sandboxEnabled ? "Sandbox Enabled" : "Sandbox Disabled"}
@@ -268,7 +274,7 @@ export default function WatchPage() {
                   </>
                 )}
               </div>
-            </div>
+            </div> */}
           </motion.div>
         </DialogContent>
       </Dialog>

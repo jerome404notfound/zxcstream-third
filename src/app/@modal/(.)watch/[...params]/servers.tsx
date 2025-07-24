@@ -4,19 +4,19 @@ import { Tally1, Tally2, Tally4, Tally5 } from "lucide-react";
 export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
-      name: "Server 1",
+      name: "Server 2",
       isRecommended: false,
       sandboxSupport: true,
       sublabel: "Sandbox support",
       description:
-        "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
+        "ZXC[STREAM] Main Server.",
       movieLink: `https://zxczxc-pi.vercel.app/player/movie/${id}`,
       tvLink: `https://zxczxc-pi.vercel.app/player/tv/${id}/${season}/${episode}`,
       icon: <Tally1 />,
       value: "server1",
     },
     {
-      name: "Server 2",
+      name: "Server 1",
       isRecommended: false,
       sandboxSupport: true,
       sublabel: "Sandbox support",

@@ -7,6 +7,7 @@ import "./globals.css";
 import NavBar from "@/components/navigation-bar";
 import Footer from "../components/footer";
 import ClientOnlyGuard from "./ClientOnlyGuard";
+import { ServiceWorkerUpdater } from "@/components/ui/service-worker-updater";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -105,6 +106,7 @@ export default function RootLayout({
             <NavBar />
             {children}
             {modal}
+            <ServiceWorkerUpdater />
             <Footer />
             <Toaster position="top-right" expand={false} duration={3000} />
           </ClientOnlyGuard>

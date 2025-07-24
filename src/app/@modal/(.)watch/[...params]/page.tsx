@@ -15,7 +15,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import GetMovieData from "@/lib/getMovieData";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowUpDown, Loader, X } from "lucide-react";
+import { ArrowLeft, ArrowUpDown } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { getServers } from "./servers";

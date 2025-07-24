@@ -18,7 +18,7 @@ export function getServers(id: string, season?: string, episode?: string) {
     {
       name: "Server 1",
       isRecommended: true,
-      sandboxSupport: false,
+      sandboxSupport: true,
       sublabel: "Sandbox support",
       description:
         "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",

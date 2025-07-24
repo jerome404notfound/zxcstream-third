@@ -79,7 +79,7 @@ export default function SwiperBackdrops() {
               <div className="absolute  w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col  hidden lg:flex">
                 <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
                   {(meow.title || meow.name)?.split(" ").slice(0, -1).join(" ")}{" "}
-                  <span className="text-amber-500">
+                  <span className="text-red-500">
                     {(meow.title || meow.name)?.split(" ").pop()}
                   </span>
                 </span>

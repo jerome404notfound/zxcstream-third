@@ -1,11 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
-
-import { SaveWatchlistType } from "@/app/watchlist/watchlist-button";
+import { customToast } from "@/components/ui/custom-toast";
+import { useRouter } from "next/navigation";
+export interface SaveWatchlistType {
+  id: string;
+  title?: string;
+  name?: string;
+  media_type: "movie" | "tv";
+  poster_path?: string;
+  release_date?: string;
+  first_air_date?: string;
+}
 
 export function useWatchlist() {
+  const router = useRouter();
   const [watchlist, setWatchlist] = useState<SaveWatchlistType[]>([]);
 
   // Helper function to get current watchlist from localStorage
@@ -20,7 +29,7 @@ export function useWatchlist() {
 
   // Helper function to get display name
   const getDisplayName = (item: SaveWatchlistType) => {
-    return item.title  || "Unknown";
+    return item.title || item.name || "Unknown";
   };
 
   // Load from localStorage on mount
@@ -31,14 +40,16 @@ export function useWatchlist() {
   const addToWatchlist = (item: SaveWatchlistType) => {
     // Always read current data from localStorage first
     const currentWatchlist = getCurrentWatchlist();
-
     const exists = currentWatchlist.some(
       (existing) =>
         existing.id === item.id && existing.media_type === item.media_type
     );
 
     if (exists) {
-      toast.info(`${getDisplayName(item)} is already in your watchlist`);
+      customToast.info(
+        "Already in watchlist",
+        `${getDisplayName(item)} is already in your watchlist`
+      );
       return;
     }
 
@@ -48,21 +59,33 @@ export function useWatchlist() {
     localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     setWatchlist(newWatchlist);
 
-    // Show success toast
-    toast.success(`Added ${getDisplayName(item)} to watchlist`, {
-      description: `${
+    // Show custom success toast with actions
+    customToast.action("Added to watchlist", {
+      description: `${getDisplayName(item)} (${
         item.media_type === "movie" ? "Movie" : "TV Show"
-      } added successfully`,
+      }) added successfully`,
+      onAction: () => {
+        router.push("/watchlist");
+        console.log("View watchlist clicked");
+      },
+      actionLabel: "View Watchlist",
+      onUndo: () => {
+        removeFromWatchlist(item.id, item.media_type);
+      },
+      undoLabel: "Undo",
     });
   };
 
-  const removeFromWatchlist = (id: string, mediaType = "movie") => {
+  const removeFromWatchlist = (
+    id: string,
+    mediaType: "movie" | "tv" = "movie"
+  ) => {
     // Always read current data from localStorage first
     const currentWatchlist = getCurrentWatchlist();
-
     const itemToRemove = currentWatchlist.find(
       (item) => item.id === id && item.media_type === mediaType
     );
+
     const newWatchlist = currentWatchlist.filter(
       (item) => !(item.id === id && item.media_type === mediaType)
     );
@@ -71,13 +94,16 @@ export function useWatchlist() {
     localStorage.setItem("watchlist", JSON.stringify(newWatchlist));
     setWatchlist(newWatchlist);
 
-    // Show success toast
+    // Show custom success toast
     if (itemToRemove) {
-      toast.success(`Removed ${getDisplayName(itemToRemove)} from watchlist`);
+      customToast.success(
+        "Removed from watchlist",
+        `${getDisplayName(itemToRemove)} has been removed from your watchlist`
+      );
     }
   };
 
-  const isInWatchlist = (id: string, mediaType = "movie") => {
+  const isInWatchlist = (id: string, mediaType: "movie" | "tv" = "movie") => {
     return watchlist.some(
       (item) => item.id === id && item.media_type === mediaType
     );
@@ -93,14 +119,19 @@ export function useWatchlist() {
 
   const clearWatchlist = () => {
     const count = watchlist.length;
+
+    if (count === 0) {
+      customToast.info("Watchlist is empty", "There are no items to clear");
+      return;
+    }
+
     localStorage.removeItem("watchlist");
     setWatchlist([]);
 
-    if (count > 0) {
-      toast.success(
-        `Cleared ${count} item${count === 1 ? "" : "s"} from watchlist`
-      );
-    }
+    customToast.warning(
+      "Watchlist cleared",
+      `Removed ${count} item${count === 1 ? "" : "s"} from your watchlist`
+    );
   };
 
   return {

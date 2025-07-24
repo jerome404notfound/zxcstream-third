@@ -11,10 +11,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
-import { Info, Play } from "lucide-react";
+import { Info, Play, PlayCircle, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 let showlist = [
   { id: "886083", media_type: "movie" },
@@ -76,7 +77,7 @@ export default function SwiperBackdrops() {
           movies.map((meow) => (
             <SwiperSlide
               key={meow.id}
-              className="swiper-slide relative overflow-hidden"
+              className="swiper-slide relative overflow-hidden "
             >
               <div className="absolute  w-[calc(100%-40px)] lg:w-1/2 bottom-15 left-5 lg:left-20 z-10 text-white   flex-col  hidden lg:flex">
                 <span className="lg:text-5xl text-3xl tracking-[-5px] lg:tracking-[-9px]  zxczxc  mt-1 mb-2 lg:mt-2 lg:mb-4 drop-shadow-sm drop-shadow-black/50 lg:-translate-x-1.5">
@@ -116,8 +117,40 @@ export default function SwiperBackdrops() {
                     }`}
                     prefetch={true}
                     scroll={false}
+                    onClick={() => {
+                      toast.custom((t) => (
+                        <div className="bg-background text-foreground w-full rounded-md border px-4 py-3 shadow-lg sm:w-[var(--width)]">
+                          <div className="flex gap-2">
+                            <div className="flex grow gap-3">
+                              <PlayCircle
+                                className="mt-0.5 shrink-0 text-emerald-500"
+                                size={16}
+                                aria-hidden="true"
+                              />
+                              <div className="flex grow justify-between gap-12">
+                                <p className="text-sm">
+                                  Now Playing: {meow.name || meow.title}
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
+                              onClick={() => toast.dismiss(t)}
+                              aria-label="Close banner"
+                            >
+                              <XIcon
+                                size={16}
+                                className="opacity-60 transition-opacity group-hover:opacity-100"
+                                aria-hidden="true"
+                              />
+                            </Button>
+                          </div>
+                        </div>
+                      ));
+                    }}
                   >
-                    <Button className="bg-zinc-950/80 hover:bg-zinc-900 border-red-700 border-1 text-white">
+                    <Button className="bg-red-950/50 hover:bg-zinc-900 border-red-700 border-1 text-white">
                       <Play />
                       Play Now
                     </Button>
@@ -194,7 +227,6 @@ export default function SwiperBackdrops() {
           slidesPerView="auto"
           centeredSlides={true}
           spaceBetween={30}
-     
           className="h-full w-full"
         >
           {loading ? (

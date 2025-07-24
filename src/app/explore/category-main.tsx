@@ -3,7 +3,7 @@ import { MovieType } from "@/lib/getMovieData";
 import dynamic from "next/dynamic";
 import { MovieCard } from "../../components/card-poster";
 import { Button } from "@/components/ui/button";
-import { Info, LoaderCircleIcon, Play, Plus } from "lucide-react";
+import { Info, LoaderCircleIcon, Play, PlayCircle, Plus, XIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,6 +12,7 @@ const CategoryFilter = dynamic(() => import("./category-filter"), {
   loading: () => <p>loading</p>,
 });
 import { CategoryFilterProps } from "./category-filter";
+import { toast } from "sonner";
 export interface CategoryProps extends CategoryFilterProps {
   movies: MovieType[];
   loading: boolean;
@@ -50,7 +51,7 @@ export default function ReusableCategory({
 }: CategoryProps) {
   const SkeletonLoading = () => {
     return (
-      <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 left-[unset] lg:left-25  z-20 text-white zxc flex justify-center">
+      <div className="absolute w-full lg:w-1/2 lg:bottom-15 bottom-0 left-[unset] lg:left-25  z-20 text-white  flex justify-center">
         <div className=" flex-col items-start gap-1 hidden lg:flex w-full">
           <Skeleton className="h-5 w-40 lg:h-8 lg:w-70 bg-zinc-500" />
           <Skeleton className="h-8 w-54 lg:h-15 lg:w-full  bg-zinc-500" />
@@ -98,7 +99,7 @@ export default function ReusableCategory({
                   )?.rating || "NR"}
             </Badge>
           </div>
-          <p className=" text-xs lg:text-base line-clamp-3 zxc mt-3">
+          <p className=" text-xs lg:text-base line-clamp-3  mt-3">
             {meow.overview || "No description available."}
           </p>
           <div className="mt-5 space-x-2">
@@ -108,6 +109,38 @@ export default function ReusableCategory({
               }`}
               prefetch={true}
               scroll={false}
+              onClick={()=> {
+                   toast.custom((t) => (
+                     <div className="bg-background text-foreground w-full rounded-md border px-4 py-3 shadow-lg sm:w-[var(--width)]">
+                       <div className="flex gap-2">
+                         <div className="flex grow gap-3">
+                           <PlayCircle
+                             className="mt-0.5 shrink-0 text-emerald-500"
+                             size={16}
+                             aria-hidden="true"
+                           />
+                           <div className="flex grow justify-between gap-12">
+                             <p className="text-sm">
+                               Now Playing: {meow.name || meow.title}
+                             </p>
+                           </div>
+                         </div>
+                         <Button
+                           variant="ghost"
+                           className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
+                           onClick={() => toast.dismiss(t)}
+                           aria-label="Close banner"
+                         >
+                           <XIcon
+                             size={16}
+                             className="opacity-60 transition-opacity group-hover:opacity-100"
+                             aria-hidden="true"
+                           />
+                         </Button>
+                       </div>
+                     </div>
+                   ));
+              }}
             >
               <Button>
                 <Play />

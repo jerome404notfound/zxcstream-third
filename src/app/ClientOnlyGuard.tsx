@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import logo from "@/assets/zxzx.png";
+import logo from "@/assets/zxczxc.svg";
 
 export default function ClientOnlyGuard({
   children,

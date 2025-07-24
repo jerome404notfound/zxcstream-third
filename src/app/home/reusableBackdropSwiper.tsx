@@ -34,7 +34,7 @@ export default function ReusableBackdropSwiper({
     data.length !== 0 && (
       <div className="relative w-[95%] lg:w-[90%] mt-8 mx-auto space-y-4 overflow-hidden">
         <div className="w-full flex items-end justify-between gap-2 overflow-hidden">
-          <p className="text-foreground relative font-semibold text-[1.1rem] lg:text-2xl  lg:border-l-4 border-l-2 border-blue-800 lg:pl-6 pl-3 flex items-center gap-2 truncate ">
+          <p className="text-foreground relative font-semibold text-[1.1rem] lg:text-2xl  lg:border-l-4 border-l-2 border-red-800 lg:pl-6 pl-3 flex items-center gap-2 truncate ">
             {title}{" "}
             {mediaOptions
               .find((meow) => meow.value === media)

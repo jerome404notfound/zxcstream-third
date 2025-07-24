@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { RefreshCw } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function ServiceWorkerUpdater() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
@@ -81,18 +83,19 @@ export function ServiceWorkerUpdater() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <div className="bg-blue-600 text-white p-4 rounded-lg shadow-lg max-w-sm">
-        <p className="text-sm mb-3">A new version is available!</p>
-        <Button
-          onClick={handleUpdate}
-          variant="secondary"
-          size="sm"
-          className="w-full"
-        >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Update Now
-        </Button>
-      </div>
+      <Card className="max-w-sm border-blue-200 bg-blue-50">
+        <CardContent className="p-4">
+          <Alert className="border-blue-200 bg-blue-50 mb-3">
+            <AlertDescription className="text-blue-800 text-sm">
+              A new version is available!
+            </AlertDescription>
+          </Alert>
+          <Button onClick={handleUpdate} className="w-full" size="sm">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Update Now
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

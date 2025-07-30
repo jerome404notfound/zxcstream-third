@@ -36,7 +36,7 @@ export default function WatchPage() {
   const id = params?.[1];
   const season = params?.[2];
   const episode = params?.[3];
-  const defaultServer = searchParams.get("server") || "Server 1";
+  const defaultServer = searchParams.get("server") || "Server 2";
 
   const [openDialog, setOpenDialog] = useState(true);
   const [selected, setSelected] = useState(defaultServer);

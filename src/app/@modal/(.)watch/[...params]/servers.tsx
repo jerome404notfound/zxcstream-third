@@ -9,7 +9,7 @@ export function getServers(id: string, season?: string, episode?: string) {
       sandboxSupport: true,
       sublabel: "Sandbox support",
       description:
-        "ZXC[STREAM] Main Server.",
+        "ZXC[STREAM] Main Server – Tagalog-dubbed content available; some may not have subtitles.",
       movieLink: `https://zxczxc-pi.vercel.app/player/movie/${id}`,
       tvLink: `https://zxczxc-pi.vercel.app/player/tv/${id}/${season}/${episode}`,
       icon: <Tally1 />,

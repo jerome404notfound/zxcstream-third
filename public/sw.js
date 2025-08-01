@@ -92,7 +92,7 @@
 //   event.notification.close();
 //   event.waitUntil(clients.openWindow("/"));
 // });
-const CACHE_NAME = "zxc-stream-v2.40";
+const CACHE_NAME = "zxc-stream-v2.41";
 const urlsToCache = [
   "/",
   "/manifest.json",
@@ -167,9 +167,60 @@ self.addEventListener("activate", (event) => {
 });
 
 // Fetch event - network first for HTML, cache first for assets
+// self.addEventListener("fetch", (event) => {
+//   const { request } = event;
+//   const url = new URL(request.url);
+
+//   // For HTML pages, use network-first strategy
+//   if (request.headers.get("accept")?.includes("text/html")) {
+//     event.respondWith(
+//       fetch(request)
+//         .then((response) => {
+//           // If network request succeeds, update cache and return response
+//           if (response.status === 200) {
+//             const responseClone = response.clone();
+//             caches.open(CACHE_NAME).then((cache) => {
+//               cache.put(request, responseClone);
+//             });
+//           }
+//           return response;
+//         })
+//         .catch(() => {
+//           // If network fails, try cache
+//           return caches.match(request);
+//         })
+//     );
+//   } else {
+//     // For assets, use cache-first strategy
+//     event.respondWith(
+//       caches.match(request).then((response) => {
+//         if (response) {
+//           return response;
+//         }
+//         return fetch(request).then((response) => {
+//           // Cache successful responses
+//           if (response.status === 200) {
+//             const responseClone = response.clone();
+//             caches.open(CACHE_NAME).then((cache) => {
+//               cache.put(request, responseClone);
+//             });
+//           }
+//           return response;
+//         });
+//       })
+//     );
+//   }
+// });
+// Fetch event - different strategies for different content types
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
+
+  // Skip caching for TMDB API requests - always fetch fresh data
+  if (url.hostname === 'api.themoviedb.org') {
+    event.respondWith(fetch(request));
+    return;
+  }
 
   // For HTML pages, use network-first strategy
   if (request.headers.get("accept")?.includes("text/html")) {
@@ -191,7 +242,7 @@ self.addEventListener("fetch", (event) => {
         })
     );
   } else {
-    // For assets, use cache-first strategy
+    // For static assets, use cache-first strategy
     event.respondWith(
       caches.match(request).then((response) => {
         if (response) {

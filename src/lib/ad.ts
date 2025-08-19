@@ -16,7 +16,9 @@ export function useSimpleAdLink(cooldownMs = 40000) {
       }
     }
 
-    const adLinks = `https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
+    const adLinks = `https://ferninsecurecrawling.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
+
+    // old`https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
 
     {
       /*PONCHANG

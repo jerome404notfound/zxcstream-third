@@ -16,7 +16,7 @@ export function useSimpleAdLink(cooldownMs = 40000) {
       }
     }
 
-    const adLinks = `https://obtainanticipate.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
+    const adLinks = `https://turkstench.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
 
     // old`https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
 

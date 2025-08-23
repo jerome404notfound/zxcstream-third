@@ -16,9 +16,9 @@ export function useSimpleAdLink(cooldownMs = 40000) {
       }
     }
 
-    const adLinks = `https://turkstench.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
+    const adLinks = `https://www.profitableratecpm.com/hd33crmf?key=b98802e643e417cf197f226400cbb36e`;
 
-    // old`https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
+    // old`https://snowmansphereabrasive.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cdhttps://turkstench.com/pyepvwc4?key=3b8db78578d352ef8dfbf252e46812cd`;
 
     {
       /*PONCHANG

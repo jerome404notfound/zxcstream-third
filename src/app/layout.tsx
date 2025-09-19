@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         {/* Google Analytics Scripts */}
         {/*MINE */}
-        {/* <Script
+        <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-BH33L5GK2T"
           strategy="afterInteractive"
@@ -52,14 +52,14 @@ export default function RootLayout({
               gtag('config', 'G-BH33L5GK2T');
             `,
           }}
-        /> */}
+        />
         <Script
           src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"
           strategy="beforeInteractive"
           disable-devtool-auto=""
         />
         {/*PONCHANG */}
-        <Script
+        {/* <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-ZYNKYR6V87"
           strategy="afterInteractive"
@@ -75,7 +75,7 @@ export default function RootLayout({
               gtag('config', 'G-ZYNKYR6V87');
             `,
           }}
-        />
+        /> */}
 
         <link
           rel="icon"

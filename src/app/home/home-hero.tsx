@@ -18,11 +18,11 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 let showlist = [
-  { id: "886083", media_type: "movie" },
-  { id: "945961", media_type: "movie" },
+  { id: "1038392", media_type: "movie" },
+  { id: "1078605", media_type: "movie" },
   { id: "297608", media_type: "movie" },
-  { id: "615453", media_type: "movie" },
-  { id: "66732", media_type: "tv" },
+  { id: "155", media_type: "movie" },
+  { id: "240411", media_type: "tv" },
   { id: "1214509", media_type: "movie" },
   // { id: "60625", media_type: "tv" },
   // { id: "219246", media_type: "tv" },

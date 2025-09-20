@@ -53,15 +53,15 @@ export function getServers(id: string, season?: string, episode?: string) {
       value: "server4",
     },
     {
-      name: "ZXCSTREAM",
+      name: "Server 5",
       sublabel: "Main Server (No Ads)",
       isRecommended: true,
       sandboxSupport: false,
       description: "Main Server (No Ads)",
-      movieLink: ` https://api-movie-tau.vercel.app/player/movie/${id}`,
-      tvLink: ` https://api-movie-tau.vercel.app/player/tv/${id}/${season}/${episode}`,
+      movieLink: `https://vidnest.fun/movie/${id}`,
+      tvLink: `https://vidnest.fun/tv/${id}/${season}/${episode}`,
       icon: <Tally5 />,
-      value: "mainserver",
+      value: "server5",
     },
   ];
 

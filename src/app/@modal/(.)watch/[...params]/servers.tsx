@@ -1,25 +1,13 @@
 // lib/servers.ts
-import { Tally1, Tally2, Tally4, Tally5 } from "lucide-react";
+import { Tally1, Tally2, Tally3, Tally4, Tally5 } from "lucide-react";
 
 export function getServers(id: string, season?: string, episode?: string) {
   return [
     {
-      name: "Server 2",
-      isRecommended: true,
-      sandboxSupport: true,
-      sublabel: "Sandbox support",
-      description:
-        "ZXC[STREAM] Main Server – Tagalog-dubbed content available; some may not have subtitles.",
-      movieLink: `https://zxczxc-pi.vercel.app/player/movie/${id}`,
-      tvLink: `https://zxczxc-pi.vercel.app/player/tv/${id}/${season}/${episode}`,
-      icon: <Tally1 />,
-      value: "server1",
-    },
-    {
       name: "Server 1",
       isRecommended: true,
       sandboxSupport: true,
-      sublabel: "Sandbox support",
+      sublabel: "Sandbox support(No Ads)",
       description:
         "Fast and ad-free streaming. Limited to movies and may occasionally be unavailable.",
       movieLink: `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=true`,
@@ -28,40 +16,53 @@ export function getServers(id: string, season?: string, episode?: string) {
       value: "server1",
     },
     {
-      name: "Server 3",
-      sublabel: "Sandbox support",
+      name: "Server 2",
       isRecommended: true,
       sandboxSupport: true,
+      sublabel: "Sandbox support(No Ads)",
       description:
-        "Fast performance with a wide selection of movies and TV shows. 4k support",
+        "ZXC[STREAM] Main Server – Tagalog-dubbed content available; some may not have subtitles.",
+      movieLink: `https://zxczxc-pi.vercel.app/player/movie/${id}`,
+      tvLink: `https://zxczxc-pi.vercel.app/player/tv/${id}/${season}/${episode}`,
+      icon: <Tally2 />,
+      value: "server1",
+    },
+
+    {
+      name: "Server 3",
+      sublabel: "Sandbox support(No Ads)",
+      isRecommended: true,
+      sandboxSupport: true,
+      description: "Main Server (No Ads)",
+      movieLink: `https://vidnest.fun/movie/${id}`,
+      tvLink: `https://vidnest.fun/tv/${id}/${season}/${episode}`,
+      icon: <Tally3 />,
+      value: "server5",
+    },
+    {
+      name: "Server 4",
+      sublabel: "Doesn't support sandbox (w/ Ads)",
+      isRecommended: true,
+      sandboxSupport: false,
+      description:
+        "Fast performance with a wide selection of movies and TV shows. 4k support (Ads)",
       movieLink: `https://player.videasy.net/movie/${id}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
       tvLink: `https://player.videasy.net/tv/${id}/${season}/${episode}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6"`,
-      icon: <Tally2 />,
+      icon: <Tally4 />,
       value: "server2",
     },
 
     {
-      name: "Server 4",
-      sublabel: "Doesn't support sandbox",
+      name: "Server 5",
+      sublabel: "Doesn't support sandbox (w/ Ads)",
       isRecommended: true,
       sandboxSupport: false,
       description:
-        "Reliable server with a vast collection and fast streaming. Ads may be present.",
+        "Reliable server with a vast collection and fast streaming. (Ads).",
       movieLink: `https://vidsrc.xyz/embed/movie/${id}`,
       tvLink: `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`,
-      icon: <Tally4 />,
-      value: "server4",
-    },
-    {
-      name: "Server 5",
-      sublabel: "Main Server (No Ads)",
-      isRecommended: true,
-      sandboxSupport: false,
-      description: "Main Server (No Ads)",
-      movieLink: `https://vidnest.fun/movie/${id}`,
-      tvLink: `https://vidnest.fun/tv/${id}/${season}/${episode}`,
       icon: <Tally5 />,
-      value: "server5",
+      value: "server4",
     },
   ];
 

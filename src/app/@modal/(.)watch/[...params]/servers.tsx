@@ -17,7 +17,7 @@ export function getServers(id: string, season?: string, episode?: string) {
     },
     {
       name: "Server 2",
-      isRecommended: true,
+      isRecommended: false,
       sandboxSupport: true,
       sublabel: "Sandbox support(No Ads)",
       description:
@@ -33,7 +33,7 @@ export function getServers(id: string, season?: string, episode?: string) {
       sublabel: "Sandbox support(No Ads)",
       isRecommended: true,
       sandboxSupport: true,
-      description: "Main Server (No Ads)",
+      description: "New Server.",
       movieLink: `https://vidnest.fun/movie/${id}`,
       tvLink: `https://vidnest.fun/tv/${id}/${season}/${episode}`,
       icon: <Tally3 />,
@@ -42,7 +42,7 @@ export function getServers(id: string, season?: string, episode?: string) {
     {
       name: "Server 4",
       sublabel: "Doesn't support sandbox (w/ Ads)",
-      isRecommended: true,
+      isRecommended: false,
       sandboxSupport: false,
       description:
         "Fast performance with a wide selection of movies and TV shows. 4k support (Ads)",
